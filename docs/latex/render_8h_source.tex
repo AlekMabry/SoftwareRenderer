@@ -1,0 +1,30 @@
+\hypertarget{render_8h_source}{}\doxysection{render.\+h}
+\label{render_8h_source}\index{SGL/sgl/render.h@{SGL/sgl/render.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{preprocessor}{\#pragma once}}
+\DoxyCodeLine{2 }
+\DoxyCodeLine{3 \textcolor{preprocessor}{\#include "{}texture.h"{}}}
+\DoxyCodeLine{4 }
+\DoxyCodeLine{10 \textcolor{preprocessor}{\#define SGL\_SHD\_FLOAT 1     }}
+\DoxyCodeLine{11 \textcolor{preprocessor}{\#define SGL\_SHD\_VEC2 2      }}
+\DoxyCodeLine{12 \textcolor{preprocessor}{\#define SGL\_SHD\_VEC3 3      }}
+\DoxyCodeLine{13 \textcolor{preprocessor}{\#define SGL\_SHD\_VEC4 4      }}
+\DoxyCodeLine{14 \textcolor{preprocessor}{\#define SGL\_SHD\_MAT4 5      }}
+\DoxyCodeLine{15 }
+\DoxyCodeLine{35 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct_s_g_l_shader}{SGLShader}}}
+\DoxyCodeLine{36 \{}
+\DoxyCodeLine{43     uint32\_t \mbox{\hyperlink{struct_s_g_l_shader_a2607e4c75542ca444642a9be673357d2}{nVertValues}};}
+\DoxyCodeLine{44 }
+\DoxyCodeLine{52     uint32\_t* \mbox{\hyperlink{struct_s_g_l_shader_aadf409664cddd97f492d826047d3bb13}{vertValues}};}
+\DoxyCodeLine{53 }
+\DoxyCodeLine{78     void(*\mbox{\hyperlink{struct_s_g_l_shader_a0507c2a595cd9b35a4369261247b2ef9}{vertShd}})(SGLTri tri, \textcolor{keywordtype}{float}* vertOutBuf, \textcolor{keywordtype}{void}* mdlPtr,}
+\DoxyCodeLine{79         \textcolor{keywordtype}{void}* uniforms, uint32\_t iTri, uint32\_t nTris);}
+\DoxyCodeLine{80 }
+\DoxyCodeLine{92     void(*\mbox{\hyperlink{struct_s_g_l_shader_a7ebd73201a57ee69a453a2dadb807281}{fragShd}})(\mbox{\hyperlink{struct_s_g_l_b_g_r32}{SGLBGR32}}* color, \textcolor{keywordtype}{float}* fragInBuf, \textcolor{keywordtype}{void}* uniforms);}
+\DoxyCodeLine{93 \} \mbox{\hyperlink{struct_s_g_l_shader}{SGLShader}};}
+\DoxyCodeLine{94 }
+\DoxyCodeLine{105 \textcolor{keywordtype}{void} \mbox{\hyperlink{group___render_ga12ed5e14f90655b07e7ccf6d638a9fce}{sglRenderTris}}(\mbox{\hyperlink{struct_s_g_l_shader}{SGLShader}}* shd, \mbox{\hyperlink{struct_s_g_l_tex2_d}{SGLTex2D}}* frameBuf, \mbox{\hyperlink{struct_s_g_l_tex2_d}{SGLTex2D}}* depthBuf,}
+\DoxyCodeLine{106     \textcolor{keywordtype}{void}* mdl, \textcolor{keywordtype}{void}* uniforms, uint32\_t nTris);}
+
+\end{DoxyCode}

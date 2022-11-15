@@ -1,0 +1,86 @@
+\hypertarget{struct_s_g_l_shader}{}\doxysection{SGLShader Struct Reference}
+\label{struct_s_g_l_shader}\index{SGLShader@{SGLShader}}
+
+
+User-\/programmed and passed to renderer. Calculates on-\/screen coordinates of every triangle vertex, as well as the color for any given pixel being rasterized.  
+
+
+
+
+{\ttfamily \#include $<$render.\+h$>$}
+
+\doxysubsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{struct_s_g_l_shader_a2607e4c75542ca444642a9be673357d2}\label{struct_s_g_l_shader_a2607e4c75542ca444642a9be673357d2}} 
+uint32\+\_\+t {\bfseries n\+Vert\+Values}
+\begin{DoxyCompactList}\small\item\em The number of vertex attributes to interpolate and pass between the vertex and fragment shader. For example if you wanted to pass an interpolated position and UV coordinate to the fragment shader, this value would be 2. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{struct_s_g_l_shader_aadf409664cddd97f492d826047d3bb13}\label{struct_s_g_l_shader_aadf409664cddd97f492d826047d3bb13}} 
+uint32\+\_\+t $\ast$ {\bfseries vert\+Values}
+\begin{DoxyCompactList}\small\item\em Array of vertex attribute types that describes the format of the vertex attributes. See SHD\+\_\+ macros for types. For example if you wanted to pass an interpolated position and UV coordinate to the fragment shader, this array would be \{SHD\+\_\+\+CVEC2, SHD\+\_\+\+CVEC3\}. \end{DoxyCompactList}\item 
+void($\ast$ \mbox{\hyperlink{struct_s_g_l_shader_a0507c2a595cd9b35a4369261247b2ef9}{vert\+Shd}} )(SGLTri tri, float $\ast$vert\+Out\+Buf, void $\ast$mdl\+Ptr, void $\ast$uniforms, uint32\+\_\+t i\+Tri, uint32\+\_\+t n\+Tris)
+\begin{DoxyCompactList}\small\item\em The vertex shader serves the purpose of returning a triangle in NDC (normalized device coordinates), as well as returning a buffer containing other vertex attributes such as position/normals/\+UVs. \end{DoxyCompactList}\item 
+void($\ast$ \mbox{\hyperlink{struct_s_g_l_shader_a7ebd73201a57ee69a453a2dadb807281}{frag\+Shd}} )(\mbox{\hyperlink{struct_s_g_l_b_g_r32}{SGLBGR32}} $\ast$color, float $\ast$frag\+In\+Buf, void $\ast$uniforms)
+\begin{DoxyCompactList}\small\item\em The fragment shader serves the purpose of calculating the color for the current fragment (pixel) using the passed-\/in interpolated vertex attributes, as well as anything else given in the uniform buffer. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+User-\/programmed and passed to renderer. Calculates on-\/screen coordinates of every triangle vertex, as well as the color for any given pixel being rasterized. 
+
+Render Pipeline\+:
+\begin{DoxyEnumerate}
+\item Vertex shader feeds in triangle coordinates in NDC format (Normalized Device Coordinates), as well as other per-\/vertex values it would like to interpolate and later feed to the frag shader.
+\item Using these NDC triangle coordinates, the rasterizer calculates pixel positions of the triangles on the texture, and interpolates the per-\/vertex values given by the vertex shader into values for the particular fragment (pixel).
+\item The fragment shader is called, with the interpolated fragment values fed in, and it calculates the color to be drawn at that particular fragment. 
+\end{DoxyEnumerate}
+
+\doxysubsection{Field Documentation}
+\mbox{\Hypertarget{struct_s_g_l_shader_a7ebd73201a57ee69a453a2dadb807281}\label{struct_s_g_l_shader_a7ebd73201a57ee69a453a2dadb807281}} 
+\index{SGLShader@{SGLShader}!fragShd@{fragShd}}
+\index{fragShd@{fragShd}!SGLShader@{SGLShader}}
+\doxysubsubsection{\texorpdfstring{fragShd}{fragShd}}
+{\footnotesize\ttfamily void($\ast$ frag\+Shd) (\mbox{\hyperlink{struct_s_g_l_b_g_r32}{SGLBGR32}} $\ast$color, float $\ast$frag\+In\+Buf, void $\ast$uniforms)}
+
+
+
+The fragment shader serves the purpose of calculating the color for the current fragment (pixel) using the passed-\/in interpolated vertex attributes, as well as anything else given in the uniform buffer. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em vert\+Buf} & Interpolated vertex attributes at that frag (ie\+: position, uv, normal). \\
+\hline
+\mbox{\texttt{ in}}  & {\em uniforms} & Unchanging variables throughout the render (ie\+: perspective/lighting/textures). \\
+\hline
+\mbox{\texttt{ in,out}}  & {\em color} & Color calculated for this fragment. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{struct_s_g_l_shader_a0507c2a595cd9b35a4369261247b2ef9}\label{struct_s_g_l_shader_a0507c2a595cd9b35a4369261247b2ef9}} 
+\index{SGLShader@{SGLShader}!vertShd@{vertShd}}
+\index{vertShd@{vertShd}!SGLShader@{SGLShader}}
+\doxysubsubsection{\texorpdfstring{vertShd}{vertShd}}
+{\footnotesize\ttfamily void($\ast$ vert\+Shd) (SGLTri tri, float $\ast$vert\+Out\+Buf, void $\ast$mdl\+Ptr, void $\ast$uniforms, uint32\+\_\+t i\+Tri, uint32\+\_\+t n\+Tris)}
+
+
+
+The vertex shader serves the purpose of returning a triangle in NDC (normalized device coordinates), as well as returning a buffer containing other vertex attributes such as position/normals/\+UVs. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in,out}}  & {\em tri} & Returned triangle (in NDC). \\
+\hline
+\mbox{\texttt{ in,out}}  & {\em vert\+Out\+Buf} & Vertex attributes to be interpolated for the frag shader. These are in format\+: Vertex 0 values, Vertex 1 values, Vertex 2 values, where values has the format defined by vert\+Values in CShader. \\
+\hline
+\mbox{\texttt{ in}}  & {\em mdl\+Ptr} & The pointer to the model to calculate the output triangle from. There is no predefined model format, the user can give the renderer any model they want and interpret it in this function. \\
+\hline
+\mbox{\texttt{ in}}  & {\em uniforms} & Unchanging variables throughout the render (ie\+: perspective/lighting/textures). \\
+\hline
+\mbox{\texttt{ in}}  & {\em i\+Tri} & Index of triangle to calculate. \\
+\hline
+\mbox{\texttt{ in}}  & {\em n\+Tris} & Total triangles being rendered. This function only calculates one triangle but this is given if accessing a triangle in your model depends on this value. \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+SGL/sgl/render.\+h\end{DoxyCompactItemize}

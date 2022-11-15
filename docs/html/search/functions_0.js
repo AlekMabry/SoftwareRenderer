@@ -1,0 +1,14 @@
+var searchData=
+[
+  ['sglbgr32tovec4_0',['sglBGR32ToVec4',['../group___s_g_l_tex2_d.html#ga740d67ff6ab98c9544516baa44f8364c',1,'texture.h']]],
+  ['sglmat4zero_1',['sglMat4Zero',['../group___s_g_l_math.html#ga57cbc1beea870502ce768016cb7659a7',1,'math.h']]],
+  ['sglrendertris_2',['sglRenderTris',['../group___render.html#ga12ed5e14f90655b07e7ccf6d638a9fce',1,'sglRenderTris(SGLShader *shd, SGLTex2D *frameBuf, SGLTex2D *depthBuf, void *mdl, void *uniforms, uint32_t nTris):&#160;render.c'],['../group___render.html#ga12ed5e14f90655b07e7ccf6d638a9fce',1,'sglRenderTris(SGLShader *shd, SGLTex2D *frameBuf, SGLTex2D *depthBuf, void *mdl, void *uniforms, uint32_t nTris):&#160;render.c']]],
+  ['sgltex2dcolorfill_3',['sglTex2DColorFill',['../group___s_g_l_tex2_d.html#ga0783634e21ec256a9d85ee2b81c7219b',1,'sglTex2DColorFill(SGLTex2D *tex, SGLBGR32 color):&#160;texture.c'],['../group___s_g_l_tex2_d.html#ga0783634e21ec256a9d85ee2b81c7219b',1,'sglTex2DColorFill(SGLTex2D *tex, SGLBGR32 color):&#160;texture.c']]],
+  ['sgltex2ddepthreset_4',['sglTex2DDepthReset',['../group___s_g_l_tex2_d.html#gab33aa651f5153d54f3cca01064805cf3',1,'sglTex2DDepthReset(SGLTex2D *tex):&#160;texture.c'],['../group___s_g_l_tex2_d.html#gab33aa651f5153d54f3cca01064805cf3',1,'sglTex2DDepthReset(SGLTex2D *tex):&#160;texture.c']]],
+  ['sgltex2dfree_5',['sglTex2DFree',['../group___s_g_l_tex2_d.html#ga4ff6ba46bef4dbae4c2b1fe10e4f6c49',1,'sglTex2DFree(SGLTex2D *tex):&#160;texture.c'],['../group___s_g_l_tex2_d.html#ga4ff6ba46bef4dbae4c2b1fe10e4f6c49',1,'sglTex2DFree(SGLTex2D *tex):&#160;texture.c']]],
+  ['sgltex2dinit_6',['sglTex2DInit',['../group___s_g_l_tex2_d.html#ga974f4880b391ef3a84e283c1ae8ad32a',1,'sglTex2DInit(SGLTex2D *tex, int32_t type, int32_t w, int32_t h, int32_t l, int32_t t):&#160;texture.c'],['../group___s_g_l_tex2_d.html#ga974f4880b391ef3a84e283c1ae8ad32a',1,'sglTex2DInit(SGLTex2D *tex, int32_t type, int32_t w, int32_t h, int32_t l, int32_t t):&#160;texture.c']]],
+  ['sgltex2dloadbmp_7',['sglTex2DLoadBMP',['../group___s_g_l_tex2_d.html#ga7ca272c7a93d7d9084a8180cfcd4a0ad',1,'sglTex2DLoadBMP(SGLTex2D *tex, uint8_t *fname):&#160;texture.c'],['../group___s_g_l_tex2_d.html#ga7ca272c7a93d7d9084a8180cfcd4a0ad',1,'sglTex2DLoadBMP(SGLTex2D *tex, uint8_t *fname):&#160;texture.c']]],
+  ['sgltex2dsample_8',['sglTex2DSample',['../group___s_g_l_tex2_d.html#ga782597566b484bdb711874aae618a418',1,'texture.h']]],
+  ['sgltex2dsavebmp_9',['sglTex2DSaveBMP',['../group___s_g_l_tex2_d.html#gaa6fb98525f080f6f29fc38f89a0b5fb4',1,'sglTex2DSaveBMP(SGLTex2D *tex, uint8_t *fname):&#160;texture.c'],['../group___s_g_l_tex2_d.html#gaa6fb98525f080f6f29fc38f89a0b5fb4',1,'sglTex2DSaveBMP(SGLTex2D *tex, uint8_t *fname):&#160;texture.c']]],
+  ['sglvec4tobgr32_10',['sglVec4ToBGR32',['../group___s_g_l_tex2_d.html#ga57a388f9a7370da82ea3f2d329f14151',1,'texture.h']]]
+];

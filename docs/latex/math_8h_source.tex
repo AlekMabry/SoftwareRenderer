@@ -1,0 +1,307 @@
+\hypertarget{math_8h_source}{}\doxysection{math.\+h}
+\label{math_8h_source}\index{SGL/sgl/math.h@{SGL/sgl/math.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{preprocessor}{\#pragma once}}
+\DoxyCodeLine{2 }
+\DoxyCodeLine{3 \textcolor{preprocessor}{\#include <stdint.h>}}
+\DoxyCodeLine{4 \textcolor{preprocessor}{\#include <math.h>}}
+\DoxyCodeLine{5 }
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#if defined (\_MSC\_VER)}}
+\DoxyCodeLine{7 \textcolor{preprocessor}{\#define SGL\_INLINE \_\_forceinline}}
+\DoxyCodeLine{8 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{9 \textcolor{preprocessor}{\#define SGL\_INLINE inline}}
+\DoxyCodeLine{10 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{11 }
+\DoxyCodeLine{17 \textcolor{keyword}{typedef} \textcolor{keywordtype}{float} SGLVec2[2];}
+\DoxyCodeLine{18 \textcolor{keyword}{typedef} int32\_t SGLVec2I[2];}
+\DoxyCodeLine{19 \textcolor{keyword}{typedef} \textcolor{keywordtype}{float} SGLVec3[3];}
+\DoxyCodeLine{20 \textcolor{keyword}{typedef} \textcolor{keywordtype}{float} SGLVec4[4];}
+\DoxyCodeLine{21 \textcolor{keyword}{typedef} SGLVec4 SGLMat4[4];}
+\DoxyCodeLine{22 \textcolor{keyword}{typedef} SGLVec3 SGLTri[3];}
+\DoxyCodeLine{23 }
+\DoxyCodeLine{24 \textcolor{preprocessor}{\#define SGL\_MAT4\_IDENTITY\_INIT  \{\{1.0f, 0.0f, 0.0f, 0.0f\},  \(\backslash\)}}
+\DoxyCodeLine{25 \textcolor{preprocessor}{                                \{0.0f, 1.0f, 0.0f, 0.0f\},   \(\backslash\)}}
+\DoxyCodeLine{26 \textcolor{preprocessor}{                                \{0.0f, 0.0f, 1.0f, 0.0f\},   \(\backslash\)}}
+\DoxyCodeLine{27 \textcolor{preprocessor}{                                \{0.0f, 0.0f, 0.0f, 1.0f\}\}}}
+\DoxyCodeLine{28 }
+\DoxyCodeLine{29 \textcolor{preprocessor}{\#define SGL\_MAT4\_ZERO\_INIT      \{\{0.0f, 0.0f, 0.0f, 0.0f\},  \(\backslash\)}}
+\DoxyCodeLine{30 \textcolor{preprocessor}{                                \{0.0f, 0.0f, 0.0f, 0.0f\},   \(\backslash\)}}
+\DoxyCodeLine{31 \textcolor{preprocessor}{                                \{0.0f, 0.0f, 0.0f, 0.0f\},   \(\backslash\)}}
+\DoxyCodeLine{32 \textcolor{preprocessor}{                                \{0.0f, 0.0f, 0.0f, 0.0f\}\}}}
+\DoxyCodeLine{33 }
+\DoxyCodeLine{34 \textcolor{preprocessor}{\#define SGL\_MAT4\_IDENTITY   ((SGLMat4)SGL\_MAT4\_IDENTITY\_INIT)}}
+\DoxyCodeLine{35 \textcolor{preprocessor}{\#define SGL\_MAT4\_ZERO       ((SGLMat4)SGL\_MAT4\_ZERO\_INIT)}}
+\DoxyCodeLine{36 }
+\DoxyCodeLine{40 SGL\_INLINE \textcolor{keywordtype}{float} sglFloatClamp(\textcolor{keywordtype}{float} a, \textcolor{keywordtype}{float} min, \textcolor{keywordtype}{float} max) \{}
+\DoxyCodeLine{41     \textcolor{keyword}{const} \textcolor{keywordtype}{float} t = a < min ? min : a;}
+\DoxyCodeLine{42     \textcolor{keywordflow}{return} t > max ? max : t;}
+\DoxyCodeLine{43 \}}
+\DoxyCodeLine{44 }
+\DoxyCodeLine{48 SGL\_INLINE \textcolor{keywordtype}{void} sglVec2Copy(SGLVec2 a, SGLVec2 dest)}
+\DoxyCodeLine{49 \{}
+\DoxyCodeLine{50     dest[0] = a[0];}
+\DoxyCodeLine{51     dest[1] = a[1];}
+\DoxyCodeLine{52 \}}
+\DoxyCodeLine{53 }
+\DoxyCodeLine{57 SGL\_INLINE \textcolor{keywordtype}{void} sglVec2Add(SGLVec2 a, SGLVec2 b, SGLVec2 dest)}
+\DoxyCodeLine{58 \{}
+\DoxyCodeLine{59     dest[0] = a[0] + b[0];}
+\DoxyCodeLine{60     dest[1] = a[1] + b[1];}
+\DoxyCodeLine{61 \}}
+\DoxyCodeLine{62 }
+\DoxyCodeLine{66 SGL\_INLINE \textcolor{keywordtype}{void} sglVec2Sub(SGLVec2 a, SGLVec2 b, SGLVec2 dest)}
+\DoxyCodeLine{67 \{}
+\DoxyCodeLine{68     dest[0] = a[0] -\/ b[0];}
+\DoxyCodeLine{69     dest[1] = a[1] -\/ b[1];}
+\DoxyCodeLine{70 \}}
+\DoxyCodeLine{71 }
+\DoxyCodeLine{75 SGL\_INLINE \textcolor{keywordtype}{float} sglVec2Dot(SGLVec2 a, SGLVec2 b)}
+\DoxyCodeLine{76 \{}
+\DoxyCodeLine{77     \textcolor{keywordflow}{return} (a[0] * b[0]) + (a[1] * b[1]);}
+\DoxyCodeLine{78 \}}
+\DoxyCodeLine{79 }
+\DoxyCodeLine{83 SGL\_INLINE \textcolor{keywordtype}{void} sglVec3Copy(SGLVec3 a, SGLVec3 dest)}
+\DoxyCodeLine{84 \{}
+\DoxyCodeLine{85     dest[0] = a[0];}
+\DoxyCodeLine{86     dest[1] = a[1];}
+\DoxyCodeLine{87     dest[2] = a[2];}
+\DoxyCodeLine{88 \}}
+\DoxyCodeLine{89 }
+\DoxyCodeLine{93 SGL\_INLINE \textcolor{keywordtype}{void} sglVec3Add(SGLVec3 a, SGLVec3 b, SGLVec3 dest)}
+\DoxyCodeLine{94 \{}
+\DoxyCodeLine{95     dest[0] = a[0] + b[0];}
+\DoxyCodeLine{96     dest[1] = a[1] + b[1];}
+\DoxyCodeLine{97     dest[2] = a[2] + b[2];}
+\DoxyCodeLine{98 \}}
+\DoxyCodeLine{99 }
+\DoxyCodeLine{103 SGL\_INLINE \textcolor{keywordtype}{void} sglVec3Sub(SGLVec3 a, SGLVec3 b, SGLVec3 dest)}
+\DoxyCodeLine{104 \{}
+\DoxyCodeLine{105     dest[0] = a[0] -\/ b[0];}
+\DoxyCodeLine{106     dest[1] = a[1] -\/ b[1];}
+\DoxyCodeLine{107     dest[2] = a[2] -\/ b[2];}
+\DoxyCodeLine{108 \}}
+\DoxyCodeLine{109 }
+\DoxyCodeLine{113 SGL\_INLINE \textcolor{keywordtype}{void} sglVec3Mul(SGLVec3 a, SGLVec3 b, SGLVec3 dest)}
+\DoxyCodeLine{114 \{}
+\DoxyCodeLine{115     dest[0] = a[0] * b[0];}
+\DoxyCodeLine{116     dest[1] = a[1] * b[1];}
+\DoxyCodeLine{117     dest[2] = a[2] * b[2];}
+\DoxyCodeLine{118 \}}
+\DoxyCodeLine{119 }
+\DoxyCodeLine{123 SGL\_INLINE \textcolor{keywordtype}{void} sglVec3FloatAdd(SGLVec3 a, \textcolor{keywordtype}{float} b, SGLVec3 dest)}
+\DoxyCodeLine{124 \{}
+\DoxyCodeLine{125     dest[0] = a[0] + b;}
+\DoxyCodeLine{126     dest[1] = a[1] + b;}
+\DoxyCodeLine{127     dest[2] = a[2] + b;}
+\DoxyCodeLine{128 \}}
+\DoxyCodeLine{129 }
+\DoxyCodeLine{133 SGL\_INLINE \textcolor{keywordtype}{void} sglFloatVec3Sub(\textcolor{keywordtype}{float} a, SGLVec3 b, SGLVec3 dest)}
+\DoxyCodeLine{134 \{}
+\DoxyCodeLine{135     dest[0] = a -\/ b[0];}
+\DoxyCodeLine{136     dest[1] = a -\/ b[1];}
+\DoxyCodeLine{137     dest[2] = a -\/ b[2];}
+\DoxyCodeLine{138 \}}
+\DoxyCodeLine{139 }
+\DoxyCodeLine{143 SGL\_INLINE \textcolor{keywordtype}{void} sglVec3FloatMul(SGLVec3 a, \textcolor{keywordtype}{float} b, SGLVec3 dest)}
+\DoxyCodeLine{144 \{}
+\DoxyCodeLine{145     dest[0] = a[0] * b;}
+\DoxyCodeLine{146     dest[1] = a[1] * b;}
+\DoxyCodeLine{147     dest[2] = a[2] * b;}
+\DoxyCodeLine{148 \}}
+\DoxyCodeLine{149 }
+\DoxyCodeLine{153 SGL\_INLINE \textcolor{keywordtype}{void} sglVec3Div(SGLVec3 a, SGLVec3 b, SGLVec3 dest)}
+\DoxyCodeLine{154 \{}
+\DoxyCodeLine{155     dest[0] = a[0] / b[0];}
+\DoxyCodeLine{156     dest[1] = a[1] / b[1];}
+\DoxyCodeLine{157     dest[2] = a[2] / b[2];}
+\DoxyCodeLine{158 \}}
+\DoxyCodeLine{159 }
+\DoxyCodeLine{163 SGL\_INLINE \textcolor{keywordtype}{void} sglVec3FloatDiv(SGLVec3 a, \textcolor{keywordtype}{float} b, SGLVec3 dest)}
+\DoxyCodeLine{164 \{}
+\DoxyCodeLine{165     dest[0] = a[0] / b;}
+\DoxyCodeLine{166     dest[1] = a[1] / b;}
+\DoxyCodeLine{167     dest[2] = a[2] / b;}
+\DoxyCodeLine{168 \}}
+\DoxyCodeLine{169 }
+\DoxyCodeLine{173 SGL\_INLINE \textcolor{keywordtype}{float} sglVec3Dot(SGLVec3 a, SGLVec3 b)}
+\DoxyCodeLine{174 \{}
+\DoxyCodeLine{175     \textcolor{keywordflow}{return} (a[0] * b[0]) + (a[1] * b[1]) + (a[2] * b[2]);}
+\DoxyCodeLine{176 \}}
+\DoxyCodeLine{177 }
+\DoxyCodeLine{181 SGL\_INLINE \textcolor{keywordtype}{float} sglVec3Length(SGLVec3 a)}
+\DoxyCodeLine{182 \{}
+\DoxyCodeLine{183     \textcolor{keywordflow}{return} sqrt(sglVec3Dot(a, a));}
+\DoxyCodeLine{184 \}}
+\DoxyCodeLine{185 }
+\DoxyCodeLine{189 SGL\_INLINE \textcolor{keywordtype}{void} sglVec3Normalize(SGLVec3 v)}
+\DoxyCodeLine{190 \{}
+\DoxyCodeLine{191     \textcolor{keywordtype}{float} length = sqrt(sglVec3Dot(v, v));}
+\DoxyCodeLine{192     v[0] /= length;}
+\DoxyCodeLine{193     v[1] /= length;}
+\DoxyCodeLine{194     v[2] /= length;}
+\DoxyCodeLine{195 \}}
+\DoxyCodeLine{196 }
+\DoxyCodeLine{200 SGL\_INLINE \textcolor{keywordtype}{void} sglVec3Cross(SGLVec3 a, SGLVec3 b, SGLVec3 dest)}
+\DoxyCodeLine{201 \{}
+\DoxyCodeLine{202     SGLVec3 c;}
+\DoxyCodeLine{203     c[0] = a[1] * b[2] -\/ a[2] * b[1];}
+\DoxyCodeLine{204     c[1] = a[2] * b[0] -\/ a[0] * b[2];}
+\DoxyCodeLine{205     c[2] = a[0] * b[1] -\/ a[1] * b[0];}
+\DoxyCodeLine{206     sglVec3Copy(c, dest);}
+\DoxyCodeLine{207 \}}
+\DoxyCodeLine{208 }
+\DoxyCodeLine{212 SGL\_INLINE \textcolor{keywordtype}{void} sglVec3Mix(SGLVec3 a, SGLVec3 b, \textcolor{keywordtype}{float} t, SGLVec3 dest)}
+\DoxyCodeLine{213 \{}
+\DoxyCodeLine{214     dest[0] = (1.0f -\/ t) * a[0] + t * b[0];}
+\DoxyCodeLine{215     dest[1] = (1.0f -\/ t) * a[1] + t * b[1];}
+\DoxyCodeLine{216     dest[2] = (1.0f -\/ t) * a[2] + t * b[2];}
+\DoxyCodeLine{217 \}}
+\DoxyCodeLine{218 }
+\DoxyCodeLine{222 SGL\_INLINE \textcolor{keywordtype}{void} sglVec4Copy(SGLVec4 a, SGLVec4 dest)}
+\DoxyCodeLine{223 \{}
+\DoxyCodeLine{224     dest[0] = a[0];}
+\DoxyCodeLine{225     dest[1] = a[1];}
+\DoxyCodeLine{226     dest[2] = a[2];}
+\DoxyCodeLine{227     dest[3] = a[3];}
+\DoxyCodeLine{228 \}}
+\DoxyCodeLine{229 }
+\DoxyCodeLine{233 SGL\_INLINE \textcolor{keywordtype}{void} sglVec2Barycentric(SGLVec2 p, SGLVec2 a, SGLVec2 b, SGLVec2 c,}
+\DoxyCodeLine{234     \textcolor{keywordtype}{float}* u, \textcolor{keywordtype}{float}* v, \textcolor{keywordtype}{float}* w)}
+\DoxyCodeLine{235 \{}
+\DoxyCodeLine{236     SGLVec2 v0, v1, v2;}
+\DoxyCodeLine{237     sglVec2Sub(b, a, v0);}
+\DoxyCodeLine{238     sglVec2Sub(c, a, v1);}
+\DoxyCodeLine{239     sglVec2Sub(p, a, v2);}
+\DoxyCodeLine{240 }
+\DoxyCodeLine{241     \textcolor{keywordtype}{float} d00 = sglVec2Dot(v0, v0);}
+\DoxyCodeLine{242     \textcolor{keywordtype}{float} d01 = sglVec2Dot(v0, v1);}
+\DoxyCodeLine{243     \textcolor{keywordtype}{float} d11 = sglVec2Dot(v1, v1);}
+\DoxyCodeLine{244     \textcolor{keywordtype}{float} d20 = sglVec2Dot(v2, v0);}
+\DoxyCodeLine{245     \textcolor{keywordtype}{float} d21 = sglVec2Dot(v2, v1);}
+\DoxyCodeLine{246     \textcolor{keywordtype}{float} denom = d00 * d11 -\/ d01 * d01;}
+\DoxyCodeLine{247     *v = (d11 * d20 -\/ d01 * d21) / denom;}
+\DoxyCodeLine{248     *w = (d00 * d21 -\/ d01 * d20) / denom;}
+\DoxyCodeLine{249     *u = 1.0f -\/ *v -\/ *w;}
+\DoxyCodeLine{250 \}}
+\DoxyCodeLine{251 }
+\DoxyCodeLine{256 SGL\_INLINE \textcolor{keywordtype}{void} \mbox{\hyperlink{group___s_g_l_math_ga57cbc1beea870502ce768016cb7659a7}{sglMat4Zero}}(SGLMat4 m)}
+\DoxyCodeLine{257 \{}
+\DoxyCodeLine{258     m[0][0] = m[0][1] = m[0][2] = m[0][3] = 0;}
+\DoxyCodeLine{259     m[1][0] = m[1][1] = m[1][2] = m[1][3] = 0;}
+\DoxyCodeLine{260     m[2][0] = m[2][1] = m[2][2] = m[2][3] = 0;}
+\DoxyCodeLine{261     m[3][0] = m[3][1] = m[3][2] = m[3][3] = 0;}
+\DoxyCodeLine{262 \}}
+\DoxyCodeLine{263 }
+\DoxyCodeLine{267 SGL\_INLINE \textcolor{keywordtype}{void} sglMat4Vec4Mul(SGLMat4 m, SGLVec4 v, SGLVec4 dest)}
+\DoxyCodeLine{268 \{}
+\DoxyCodeLine{269     SGLVec4 res;}
+\DoxyCodeLine{270     res[0] = m[0][0] * v[0] + m[1][0] * v[1] + m[2][0] * v[2] + m[3][0] * v[3];}
+\DoxyCodeLine{271     res[1] = m[0][1] * v[0] + m[1][1] * v[1] + m[2][1] * v[2] + m[3][1] * v[3];}
+\DoxyCodeLine{272     res[2] = m[0][2] * v[0] + m[1][2] * v[1] + m[2][2] * v[2] + m[3][2] * v[3];}
+\DoxyCodeLine{273     res[3] = m[0][3] * v[0] + m[1][3] * v[1] + m[2][3] * v[2] + m[3][3] * v[3];}
+\DoxyCodeLine{274     sglVec4Copy(res, dest);}
+\DoxyCodeLine{275 \}}
+\DoxyCodeLine{276 }
+\DoxyCodeLine{280 SGL\_INLINE \textcolor{keywordtype}{void} sglMat4Vec3Mul(SGLMat4 m, SGLVec3 v, \textcolor{keywordtype}{float} last, SGLVec3 dest)}
+\DoxyCodeLine{281 \{}
+\DoxyCodeLine{282     SGLVec4 res;}
+\DoxyCodeLine{283     res[0] = v[0];}
+\DoxyCodeLine{284     res[1] = v[1];}
+\DoxyCodeLine{285     res[2] = v[2];}
+\DoxyCodeLine{286     res[3] = last;}
+\DoxyCodeLine{287     sglMat4Vec4Mul(m, res, res);}
+\DoxyCodeLine{288     dest[0] = res[0];}
+\DoxyCodeLine{289     dest[1] = res[1];}
+\DoxyCodeLine{290     dest[2] = res[2];}
+\DoxyCodeLine{291     \textcolor{comment}{//sglVec3Copy(res, dest);}}
+\DoxyCodeLine{292 \}}
+\DoxyCodeLine{293 }
+\DoxyCodeLine{297 SGL\_INLINE \textcolor{keywordtype}{void} sglMat4Transpose(SGLMat4 m, SGLMat4 dest)}
+\DoxyCodeLine{298 \{}
+\DoxyCodeLine{299     dest[0][0] = m[0][0]; dest[1][0] = m[0][1];}
+\DoxyCodeLine{300     dest[0][1] = m[1][0]; dest[1][1] = m[1][1];}
+\DoxyCodeLine{301     dest[0][2] = m[2][0]; dest[1][2] = m[2][1];}
+\DoxyCodeLine{302     dest[0][3] = m[3][0]; dest[1][3] = m[3][1];}
+\DoxyCodeLine{303     dest[2][0] = m[0][2]; dest[3][0] = m[0][3];}
+\DoxyCodeLine{304     dest[2][1] = m[1][2]; dest[3][1] = m[1][3];}
+\DoxyCodeLine{305     dest[2][2] = m[2][2]; dest[3][2] = m[2][3];}
+\DoxyCodeLine{306     dest[2][3] = m[3][2]; dest[3][3] = m[3][3];}
+\DoxyCodeLine{307 \}}
+\DoxyCodeLine{308 }
+\DoxyCodeLine{312 SGL\_INLINE \textcolor{keywordtype}{void} sglMat4Mat4Mul(SGLMat4 m1, SGLMat4 m2, SGLMat4 dest)}
+\DoxyCodeLine{313 \{}
+\DoxyCodeLine{314     \textcolor{keywordtype}{float}   a00 = m1[0][0], a01 = m1[0][1], a02 = m1[0][2], a03 = m1[0][3],}
+\DoxyCodeLine{315             a10 = m1[1][0], a11 = m1[1][1], a12 = m1[1][2], a13 = m1[1][3],}
+\DoxyCodeLine{316             a20 = m1[2][0], a21 = m1[2][1], a22 = m1[2][2], a23 = m1[2][3],}
+\DoxyCodeLine{317             a30 = m1[3][0], a31 = m1[3][1], a32 = m1[3][2], a33 = m1[3][3],}
+\DoxyCodeLine{318 }
+\DoxyCodeLine{319             b00 = m2[0][0], b01 = m2[0][1], b02 = m2[0][2], b03 = m2[0][3],}
+\DoxyCodeLine{320             b10 = m2[1][0], b11 = m2[1][1], b12 = m2[1][2], b13 = m2[1][3],}
+\DoxyCodeLine{321             b20 = m2[2][0], b21 = m2[2][1], b22 = m2[2][2], b23 = m2[2][3],}
+\DoxyCodeLine{322             b30 = m2[3][0], b31 = m2[3][1], b32 = m2[3][2], b33 = m2[3][3];}
+\DoxyCodeLine{323 }
+\DoxyCodeLine{324     dest[0][0] = a00 * b00 + a10 * b01 + a20 * b02 + a30 * b03;}
+\DoxyCodeLine{325     dest[0][1] = a01 * b00 + a11 * b01 + a21 * b02 + a31 * b03;}
+\DoxyCodeLine{326     dest[0][2] = a02 * b00 + a12 * b01 + a22 * b02 + a32 * b03;}
+\DoxyCodeLine{327     dest[0][3] = a03 * b00 + a13 * b01 + a23 * b02 + a33 * b03;}
+\DoxyCodeLine{328     dest[1][0] = a00 * b10 + a10 * b11 + a20 * b12 + a30 * b13;}
+\DoxyCodeLine{329     dest[1][1] = a01 * b10 + a11 * b11 + a21 * b12 + a31 * b13;}
+\DoxyCodeLine{330     dest[1][2] = a02 * b10 + a12 * b11 + a22 * b12 + a32 * b13;}
+\DoxyCodeLine{331     dest[1][3] = a03 * b10 + a13 * b11 + a23 * b12 + a33 * b13;}
+\DoxyCodeLine{332     dest[2][0] = a00 * b20 + a10 * b21 + a20 * b22 + a30 * b23;}
+\DoxyCodeLine{333     dest[2][1] = a01 * b20 + a11 * b21 + a21 * b22 + a31 * b23;}
+\DoxyCodeLine{334     dest[2][2] = a02 * b20 + a12 * b21 + a22 * b22 + a32 * b23;}
+\DoxyCodeLine{335     dest[2][3] = a03 * b20 + a13 * b21 + a23 * b22 + a33 * b23;}
+\DoxyCodeLine{336     dest[3][0] = a00 * b30 + a10 * b31 + a20 * b32 + a30 * b33;}
+\DoxyCodeLine{337     dest[3][1] = a01 * b30 + a11 * b31 + a21 * b32 + a31 * b33;}
+\DoxyCodeLine{338     dest[3][2] = a02 * b30 + a12 * b31 + a22 * b32 + a32 * b33;}
+\DoxyCodeLine{339     dest[3][3] = a03 * b30 + a13 * b31 + a23 * b32 + a33 * b33;}
+\DoxyCodeLine{340 \}}
+\DoxyCodeLine{341 }
+\DoxyCodeLine{345 SGL\_INLINE \textcolor{keywordtype}{void} sglMat4LookAt(SGLVec3 eye, SGLVec3 center, SGLVec3 up,}
+\DoxyCodeLine{346     SGLMat4 dest)}
+\DoxyCodeLine{347 \{}
+\DoxyCodeLine{348     SGLVec3 f, u, s;}
+\DoxyCodeLine{349     sglVec3Sub(center, eye, f);}
+\DoxyCodeLine{350     sglVec3Normalize(f);}
+\DoxyCodeLine{351 }
+\DoxyCodeLine{352     sglVec3Cross(f, up, s);}
+\DoxyCodeLine{353     sglVec3Normalize(s);}
+\DoxyCodeLine{354     sglVec3Cross(s, f, u);}
+\DoxyCodeLine{355 }
+\DoxyCodeLine{356     dest[0][0] = s[0];}
+\DoxyCodeLine{357     dest[0][1] = u[0];}
+\DoxyCodeLine{358     dest[0][2] = -\/f[0];}
+\DoxyCodeLine{359     dest[1][0] = s[1];}
+\DoxyCodeLine{360     dest[1][1] = u[1];}
+\DoxyCodeLine{361     dest[1][2] = -\/f[1];}
+\DoxyCodeLine{362     dest[2][0] = s[2];}
+\DoxyCodeLine{363     dest[2][1] = u[2];}
+\DoxyCodeLine{364     dest[2][2] = -\/f[2];}
+\DoxyCodeLine{365     dest[3][0] = -\/sglVec3Dot(s, eye);}
+\DoxyCodeLine{366     dest[3][1] = -\/sglVec3Dot(u, eye);}
+\DoxyCodeLine{367     dest[3][2] = sglVec3Dot(f, eye);}
+\DoxyCodeLine{368     dest[0][3] = dest[1][3] = dest[2][3] = 0.0f;}
+\DoxyCodeLine{369     dest[3][3] = 1.0f;}
+\DoxyCodeLine{370 \}}
+\DoxyCodeLine{371 }
+\DoxyCodeLine{375 SGL\_INLINE \textcolor{keywordtype}{void} sglMat4Perspective(\textcolor{keywordtype}{float} fovY, \textcolor{keywordtype}{float} aspect, \textcolor{keywordtype}{float} nearZ,}
+\DoxyCodeLine{376     \textcolor{keywordtype}{float} farZ, SGLMat4 dest)}
+\DoxyCodeLine{377 \{}
+\DoxyCodeLine{378     \textcolor{comment}{// Right hand, [-\/1, 1] clipspace}}
+\DoxyCodeLine{379     \textcolor{keywordtype}{float} f, fn;}
+\DoxyCodeLine{380 }
+\DoxyCodeLine{381     \mbox{\hyperlink{group___s_g_l_math_ga57cbc1beea870502ce768016cb7659a7}{sglMat4Zero}}(dest);}
+\DoxyCodeLine{382 }
+\DoxyCodeLine{383     f = 1.0f / tanf(fovY * 0.5f);}
+\DoxyCodeLine{384     fn = 1.0f / (nearZ -\/ farZ);}
+\DoxyCodeLine{385 }
+\DoxyCodeLine{386     dest[0][0] = f / aspect;}
+\DoxyCodeLine{387     dest[1][1] = f;}
+\DoxyCodeLine{388     dest[2][2] = (nearZ + farZ) * fn;}
+\DoxyCodeLine{389     dest[2][3] = -\/1.0f;}
+\DoxyCodeLine{390     dest[3][2] = 2.0f * nearZ * farZ * fn;}
+\DoxyCodeLine{391 \}}
+
+\end{DoxyCode}

@@ -1,0 +1,233 @@
+\hypertarget{group___s_g_l_tex2_d}{}\doxysection{Texture}
+\label{group___s_g_l_tex2_d}\index{Texture@{Texture}}
+
+
+The core of the library, almost all functions either read from or write to textures.  
+
+
+\doxysubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{struct_s_g_l_b_g_r24}{SGLBGR24}}
+\begin{DoxyCompactList}\small\item\em 24-\/bit color. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{struct_s_g_l_b_g_r32}{SGLBGR32}}
+\begin{DoxyCompactList}\small\item\em 32-\/bit color. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{struct_s_g_l_tex2_d}{SGLTex2D}}
+\begin{DoxyCompactList}\small\item\em The texture class, just about everything reads from or writes to this. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{group___s_g_l_tex2_d_ga4ad2051df1f2c2c96a202be06180c632}\label{group___s_g_l_tex2_d_ga4ad2051df1f2c2c96a202be06180c632}} 
+\#define {\bfseries SGL\+\_\+\+TEX2\+D\+\_\+\+RAW}~1
+\begin{DoxyCompactList}\small\item\em Raw format is a \mbox{\hyperlink{struct_s_g_l_b_g_r24}{SGLBGR24}} raw\+Buf array of size w $\ast$ h in row-\/major order. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{group___s_g_l_tex2_d_ga2f1773a0921650dc67e3c8a2582aaeeb}\label{group___s_g_l_tex2_d_ga2f1773a0921650dc67e3c8a2582aaeeb}} 
+\#define {\bfseries SGL\+\_\+\+TEX2\+D\+\_\+\+DEPTH}~2
+\begin{DoxyCompactList}\small\item\em Depth format is a float depth\+Buf array of size w $\ast$ h in row-\/major order. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{group___s_g_l_tex2_d_gace93d854ec9345e4dc8851bddbaba4e8}\label{group___s_g_l_tex2_d_gace93d854ec9345e4dc8851bddbaba4e8}} 
+typedef struct \mbox{\hyperlink{struct_s_g_l_b_g_r24}{SGLBGR24}} {\bfseries SGLBGR24}
+\begin{DoxyCompactList}\small\item\em 24-\/bit color. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{group___s_g_l_tex2_d_gab853ade7e2ee059a835cdb5eb23aaa8b}\label{group___s_g_l_tex2_d_gab853ade7e2ee059a835cdb5eb23aaa8b}} 
+typedef struct \mbox{\hyperlink{struct_s_g_l_b_g_r32}{SGLBGR32}} {\bfseries SGLBGR32}
+\begin{DoxyCompactList}\small\item\em 32-\/bit color. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{group___s_g_l_tex2_d_ga7368daf1063368e70a20efddcd946491}\label{group___s_g_l_tex2_d_ga7368daf1063368e70a20efddcd946491}} 
+typedef struct \mbox{\hyperlink{struct_s_g_l_tex2_d}{SGLTex2D}} {\bfseries SGLTex2D}
+\begin{DoxyCompactList}\small\item\em The texture class, just about everything reads from or writes to this. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{group___s_g_l_tex2_d_ga974f4880b391ef3a84e283c1ae8ad32a}{sgl\+Tex2\+DInit}} (\mbox{\hyperlink{struct_s_g_l_tex2_d}{SGLTex2D}} $\ast$tex, int32\+\_\+t type, int32\+\_\+t w, int32\+\_\+t h, int32\+\_\+t l, int32\+\_\+t t)
+\begin{DoxyCompactList}\small\item\em Initialize texture. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{group___s_g_l_tex2_d_ga4ff6ba46bef4dbae4c2b1fe10e4f6c49}{sgl\+Tex2\+DFree}} (\mbox{\hyperlink{struct_s_g_l_tex2_d}{SGLTex2D}} $\ast$tex)
+\begin{DoxyCompactList}\small\item\em Free texture. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{group___s_g_l_tex2_d_ga0783634e21ec256a9d85ee2b81c7219b}{sgl\+Tex2\+DColor\+Fill}} (\mbox{\hyperlink{struct_s_g_l_tex2_d}{SGLTex2D}} $\ast$tex, \mbox{\hyperlink{struct_s_g_l_b_g_r32}{SGLBGR32}} color)
+\begin{DoxyCompactList}\small\item\em Fill texture with color. Only works with raw textures. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{group___s_g_l_tex2_d_gab33aa651f5153d54f3cca01064805cf3}{sgl\+Tex2\+DDepth\+Reset}} (\mbox{\hyperlink{struct_s_g_l_tex2_d}{SGLTex2D}} $\ast$tex)
+\begin{DoxyCompactList}\small\item\em Reset depth texture. Set all pixels to far depth. \end{DoxyCompactList}\item 
+SGL\+\_\+\+INLINE void \mbox{\hyperlink{group___s_g_l_tex2_d_ga740d67ff6ab98c9544516baa44f8364c}{sgl\+BGR32\+To\+Vec4}} (\mbox{\hyperlink{struct_s_g_l_b_g_r32}{SGLBGR32}} in, SGLVec4 out)
+\begin{DoxyCompactList}\small\item\em Converts \mbox{\hyperlink{struct_s_g_l_b_g_r32}{SGLBGR32}} to normalized SGLVec4 color, where channels from \mbox{[}0, 255\mbox{]} become \mbox{[}0.\+0f, 1.\+0f\mbox{]}. \end{DoxyCompactList}\item 
+SGL\+\_\+\+INLINE void \mbox{\hyperlink{group___s_g_l_tex2_d_ga57a388f9a7370da82ea3f2d329f14151}{sgl\+Vec4\+To\+BGR32}} (SGLVec4 in, \mbox{\hyperlink{struct_s_g_l_b_g_r32}{SGLBGR32}} $\ast$out)
+\begin{DoxyCompactList}\small\item\em Converts Vec4 normalized color to BGR32, where channels from \mbox{[}0.\+0f, 1.\+0f\mbox{]} become \mbox{[}0, 255\mbox{]}. \end{DoxyCompactList}\item 
+SGL\+\_\+\+INLINE void \mbox{\hyperlink{group___s_g_l_tex2_d_ga782597566b484bdb711874aae618a418}{sgl\+Tex2\+DSample}} (\mbox{\hyperlink{struct_s_g_l_tex2_d}{SGLTex2D}} $\ast$tex, SGLVec4 col, float u, float v)
+\begin{DoxyCompactList}\small\item\em Sample color from color textures at normalized UV coordinate (0.\+0-\/1.\+0). Coordinates over 1.\+0 loop causing a repeating texture effect. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{group___s_g_l_tex2_d_ga7ca272c7a93d7d9084a8180cfcd4a0ad}{sgl\+Tex2\+DLoad\+BMP}} (\mbox{\hyperlink{struct_s_g_l_tex2_d}{SGLTex2D}} $\ast$tex, uint8\+\_\+t $\ast$fname)
+\begin{DoxyCompactList}\small\item\em Loads BMP image. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{group___s_g_l_tex2_d_gaa6fb98525f080f6f29fc38f89a0b5fb4}{sgl\+Tex2\+DSave\+BMP}} (\mbox{\hyperlink{struct_s_g_l_tex2_d}{SGLTex2D}} $\ast$tex, uint8\+\_\+t $\ast$fname)
+\begin{DoxyCompactList}\small\item\em Saves BMP image. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+The core of the library, almost all functions either read from or write to textures. 
+
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{group___s_g_l_tex2_d_ga740d67ff6ab98c9544516baa44f8364c}\label{group___s_g_l_tex2_d_ga740d67ff6ab98c9544516baa44f8364c}} 
+\index{Texture@{Texture}!sglBGR32ToVec4@{sglBGR32ToVec4}}
+\index{sglBGR32ToVec4@{sglBGR32ToVec4}!Texture@{Texture}}
+\doxysubsubsection{\texorpdfstring{sglBGR32ToVec4()}{sglBGR32ToVec4()}}
+{\footnotesize\ttfamily SGL\+\_\+\+INLINE void sgl\+BGR32\+To\+Vec4 (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_s_g_l_b_g_r32}{SGLBGR32}}}]{in,  }\item[{SGLVec4}]{out }\end{DoxyParamCaption})}
+
+
+
+Converts \mbox{\hyperlink{struct_s_g_l_b_g_r32}{SGLBGR32}} to normalized SGLVec4 color, where channels from \mbox{[}0, 255\mbox{]} become \mbox{[}0.\+0f, 1.\+0f\mbox{]}. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em in} & Color in \mbox{\hyperlink{struct_s_g_l_b_g_r32}{SGLBGR32}}. \\
+\hline
+\mbox{\texttt{ in,out}}  & {\em out} & Normalized color in SGLVec4. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{group___s_g_l_tex2_d_ga0783634e21ec256a9d85ee2b81c7219b}\label{group___s_g_l_tex2_d_ga0783634e21ec256a9d85ee2b81c7219b}} 
+\index{Texture@{Texture}!sglTex2DColorFill@{sglTex2DColorFill}}
+\index{sglTex2DColorFill@{sglTex2DColorFill}!Texture@{Texture}}
+\doxysubsubsection{\texorpdfstring{sglTex2DColorFill()}{sglTex2DColorFill()}}
+{\footnotesize\ttfamily void sgl\+Tex2\+DColor\+Fill (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_s_g_l_tex2_d}{SGLTex2D}} $\ast$}]{tex,  }\item[{\mbox{\hyperlink{struct_s_g_l_b_g_r32}{SGLBGR32}}}]{color }\end{DoxyParamCaption})}
+
+
+
+Fill texture with color. Only works with raw textures. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in,out}}  & {\em tex} & Texture to color fill. \\
+\hline
+\mbox{\texttt{ in}}  & {\em color} & Color to fill texture with. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{group___s_g_l_tex2_d_gab33aa651f5153d54f3cca01064805cf3}\label{group___s_g_l_tex2_d_gab33aa651f5153d54f3cca01064805cf3}} 
+\index{Texture@{Texture}!sglTex2DDepthReset@{sglTex2DDepthReset}}
+\index{sglTex2DDepthReset@{sglTex2DDepthReset}!Texture@{Texture}}
+\doxysubsubsection{\texorpdfstring{sglTex2DDepthReset()}{sglTex2DDepthReset()}}
+{\footnotesize\ttfamily void sgl\+Tex2\+DDepth\+Reset (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_s_g_l_tex2_d}{SGLTex2D}} $\ast$}]{tex }\end{DoxyParamCaption})}
+
+
+
+Reset depth texture. Set all pixels to far depth. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in,out}}  & {\em tex} & Depth texture to reset. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{group___s_g_l_tex2_d_ga4ff6ba46bef4dbae4c2b1fe10e4f6c49}\label{group___s_g_l_tex2_d_ga4ff6ba46bef4dbae4c2b1fe10e4f6c49}} 
+\index{Texture@{Texture}!sglTex2DFree@{sglTex2DFree}}
+\index{sglTex2DFree@{sglTex2DFree}!Texture@{Texture}}
+\doxysubsubsection{\texorpdfstring{sglTex2DFree()}{sglTex2DFree()}}
+{\footnotesize\ttfamily void sgl\+Tex2\+DFree (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_s_g_l_tex2_d}{SGLTex2D}} $\ast$}]{tex }\end{DoxyParamCaption})}
+
+
+
+Free texture. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in,out}}  & {\em tex} & Texture to free. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{group___s_g_l_tex2_d_ga974f4880b391ef3a84e283c1ae8ad32a}\label{group___s_g_l_tex2_d_ga974f4880b391ef3a84e283c1ae8ad32a}} 
+\index{Texture@{Texture}!sglTex2DInit@{sglTex2DInit}}
+\index{sglTex2DInit@{sglTex2DInit}!Texture@{Texture}}
+\doxysubsubsection{\texorpdfstring{sglTex2DInit()}{sglTex2DInit()}}
+{\footnotesize\ttfamily void sgl\+Tex2\+DInit (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_s_g_l_tex2_d}{SGLTex2D}} $\ast$}]{tex,  }\item[{int32\+\_\+t}]{type,  }\item[{int32\+\_\+t}]{w,  }\item[{int32\+\_\+t}]{h,  }\item[{int32\+\_\+t}]{l,  }\item[{int32\+\_\+t}]{t }\end{DoxyParamCaption})}
+
+
+
+Initialize texture. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in,out}}  & {\em tex} & Uninitialized texture to initialize. \\
+\hline
+\mbox{\texttt{ in}}  & {\em type} & Type of texture. See TEX2\+D\+\_\+ macros for options. \\
+\hline
+\mbox{\texttt{ in}}  & {\em w} & Width \\
+\hline
+\mbox{\texttt{ in}}  & {\em h} & Height \\
+\hline
+\mbox{\texttt{ in}}  & {\em l} & (Optional) left offset for use with sprite textures. \\
+\hline
+\mbox{\texttt{ in}}  & {\em t} & (Optional) top offset for use with sprite textures. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{group___s_g_l_tex2_d_ga7ca272c7a93d7d9084a8180cfcd4a0ad}\label{group___s_g_l_tex2_d_ga7ca272c7a93d7d9084a8180cfcd4a0ad}} 
+\index{Texture@{Texture}!sglTex2DLoadBMP@{sglTex2DLoadBMP}}
+\index{sglTex2DLoadBMP@{sglTex2DLoadBMP}!Texture@{Texture}}
+\doxysubsubsection{\texorpdfstring{sglTex2DLoadBMP()}{sglTex2DLoadBMP()}}
+{\footnotesize\ttfamily void sgl\+Tex2\+DLoad\+BMP (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_s_g_l_tex2_d}{SGLTex2D}} $\ast$}]{tex,  }\item[{uint8\+\_\+t $\ast$}]{fname }\end{DoxyParamCaption})}
+
+
+
+Loads BMP image. 
+
+Supports standard uncompressed 24-\/bit color BMP images.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in,out}}  & {\em tex} & Uninitialized texture to load into. \\
+\hline
+\mbox{\texttt{ in}}  & {\em fname} & File name of BMP. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{group___s_g_l_tex2_d_ga782597566b484bdb711874aae618a418}\label{group___s_g_l_tex2_d_ga782597566b484bdb711874aae618a418}} 
+\index{Texture@{Texture}!sglTex2DSample@{sglTex2DSample}}
+\index{sglTex2DSample@{sglTex2DSample}!Texture@{Texture}}
+\doxysubsubsection{\texorpdfstring{sglTex2DSample()}{sglTex2DSample()}}
+{\footnotesize\ttfamily SGL\+\_\+\+INLINE void sgl\+Tex2\+DSample (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_s_g_l_tex2_d}{SGLTex2D}} $\ast$}]{tex,  }\item[{SGLVec4}]{col,  }\item[{float}]{u,  }\item[{float}]{v }\end{DoxyParamCaption})}
+
+
+
+Sample color from color textures at normalized UV coordinate (0.\+0-\/1.\+0). Coordinates over 1.\+0 loop causing a repeating texture effect. 
+
+Does not handle filtering or mip maps (yet).
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em tex} & Texture to sample from. \\
+\hline
+\mbox{\texttt{ in,out}}  & {\em col} & Sets color at this address to sampled color (0.\+0f \texorpdfstring{$<$}{<} r, g, b, a \texorpdfstring{$<$}{<} 1.\+0f) \\
+\hline
+\mbox{\texttt{ in}}  & {\em u} & Normalized (0.\+0-\/1.\+0) x coordinate to sample from. \\
+\hline
+\mbox{\texttt{ in}}  & {\em v} & Normalized (0.\+0-\/1.\+0) y coordinate to sample from. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{group___s_g_l_tex2_d_gaa6fb98525f080f6f29fc38f89a0b5fb4}\label{group___s_g_l_tex2_d_gaa6fb98525f080f6f29fc38f89a0b5fb4}} 
+\index{Texture@{Texture}!sglTex2DSaveBMP@{sglTex2DSaveBMP}}
+\index{sglTex2DSaveBMP@{sglTex2DSaveBMP}!Texture@{Texture}}
+\doxysubsubsection{\texorpdfstring{sglTex2DSaveBMP()}{sglTex2DSaveBMP()}}
+{\footnotesize\ttfamily void sgl\+Tex2\+DSave\+BMP (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_s_g_l_tex2_d}{SGLTex2D}} $\ast$}]{tex,  }\item[{uint8\+\_\+t $\ast$}]{fname }\end{DoxyParamCaption})}
+
+
+
+Saves BMP image. 
+
+Creates standard uncompressed 24-\/bit color BMP images.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em tex} & Texture to load from. \\
+\hline
+\mbox{\texttt{ in}}  & {\em fname} & File name of BMP to save to. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{group___s_g_l_tex2_d_ga57a388f9a7370da82ea3f2d329f14151}\label{group___s_g_l_tex2_d_ga57a388f9a7370da82ea3f2d329f14151}} 
+\index{Texture@{Texture}!sglVec4ToBGR32@{sglVec4ToBGR32}}
+\index{sglVec4ToBGR32@{sglVec4ToBGR32}!Texture@{Texture}}
+\doxysubsubsection{\texorpdfstring{sglVec4ToBGR32()}{sglVec4ToBGR32()}}
+{\footnotesize\ttfamily SGL\+\_\+\+INLINE void sgl\+Vec4\+To\+BGR32 (\begin{DoxyParamCaption}\item[{SGLVec4}]{in,  }\item[{\mbox{\hyperlink{struct_s_g_l_b_g_r32}{SGLBGR32}} $\ast$}]{out }\end{DoxyParamCaption})}
+
+
+
+Converts Vec4 normalized color to BGR32, where channels from \mbox{[}0.\+0f, 1.\+0f\mbox{]} become \mbox{[}0, 255\mbox{]}. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em in} & Normalized color in SGLVec4. \\
+\hline
+\mbox{\texttt{ in,out}}  & {\em out} & Color in \mbox{\hyperlink{struct_s_g_l_b_g_r32}{SGLBGR32}}. \\
+\hline
+\end{DoxyParams}

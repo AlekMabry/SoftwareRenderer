@@ -1,0 +1,73 @@
+\hypertarget{group___render}{}\doxysection{Render}
+\label{group___render}\index{Render@{Render}}
+
+
+For rendering triangle arrays using vertex/fragment shaders.  
+
+
+\doxysubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{struct_s_g_l_shader}{SGLShader}}
+\begin{DoxyCompactList}\small\item\em User-\/programmed and passed to renderer. Calculates on-\/screen coordinates of every triangle vertex, as well as the color for any given pixel being rasterized. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef struct \mbox{\hyperlink{struct_s_g_l_shader}{SGLShader}} \mbox{\hyperlink{group___render_gad320661197975773e6cb2d4b09ae7f54}{SGLShader}}
+\begin{DoxyCompactList}\small\item\em User-\/programmed and passed to renderer. Calculates on-\/screen coordinates of every triangle vertex, as well as the color for any given pixel being rasterized. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{group___render_ga12ed5e14f90655b07e7ccf6d638a9fce}{sgl\+Render\+Tris}} (\mbox{\hyperlink{struct_s_g_l_shader}{SGLShader}} $\ast$shd, \mbox{\hyperlink{struct_s_g_l_tex2_d}{SGLTex2D}} $\ast$frame\+Buf, \mbox{\hyperlink{struct_s_g_l_tex2_d}{SGLTex2D}} $\ast$depth\+Buf, void $\ast$mdl, void $\ast$uniforms, uint32\+\_\+t n\+Tris)
+\begin{DoxyCompactList}\small\item\em Renders triangles to texture. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+For rendering triangle arrays using vertex/fragment shaders. 
+
+
+
+\doxysubsection{Typedef Documentation}
+\mbox{\Hypertarget{group___render_gad320661197975773e6cb2d4b09ae7f54}\label{group___render_gad320661197975773e6cb2d4b09ae7f54}} 
+\index{Render@{Render}!SGLShader@{SGLShader}}
+\index{SGLShader@{SGLShader}!Render@{Render}}
+\doxysubsubsection{\texorpdfstring{SGLShader}{SGLShader}}
+{\footnotesize\ttfamily typedef struct \mbox{\hyperlink{struct_s_g_l_shader}{SGLShader}} \mbox{\hyperlink{struct_s_g_l_shader}{SGLShader}}}
+
+
+
+User-\/programmed and passed to renderer. Calculates on-\/screen coordinates of every triangle vertex, as well as the color for any given pixel being rasterized. 
+
+Render Pipeline\+:
+\begin{DoxyEnumerate}
+\item Vertex shader feeds in triangle coordinates in NDC format (Normalized Device Coordinates), as well as other per-\/vertex values it would like to interpolate and later feed to the frag shader.
+\item Using these NDC triangle coordinates, the rasterizer calculates pixel positions of the triangles on the texture, and interpolates the per-\/vertex values given by the vertex shader into values for the particular fragment (pixel).
+\item The fragment shader is called, with the interpolated fragment values fed in, and it calculates the color to be drawn at that particular fragment. 
+\end{DoxyEnumerate}
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{group___render_ga12ed5e14f90655b07e7ccf6d638a9fce}\label{group___render_ga12ed5e14f90655b07e7ccf6d638a9fce}} 
+\index{Render@{Render}!sglRenderTris@{sglRenderTris}}
+\index{sglRenderTris@{sglRenderTris}!Render@{Render}}
+\doxysubsubsection{\texorpdfstring{sglRenderTris()}{sglRenderTris()}}
+{\footnotesize\ttfamily void sgl\+Render\+Tris (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_s_g_l_shader}{SGLShader}} $\ast$}]{shd,  }\item[{\mbox{\hyperlink{struct_s_g_l_tex2_d}{SGLTex2D}} $\ast$}]{frame\+Buf,  }\item[{\mbox{\hyperlink{struct_s_g_l_tex2_d}{SGLTex2D}} $\ast$}]{depth\+Buf,  }\item[{void $\ast$}]{mdl,  }\item[{void $\ast$}]{uniforms,  }\item[{uint32\+\_\+t}]{n\+Tris }\end{DoxyParamCaption})}
+
+
+
+Renders triangles to texture. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em shd} & Shader. \\
+\hline
+\mbox{\texttt{ in,out}}  & {\em frame\+Buf} & Color texture to render to. \\
+\hline
+\mbox{\texttt{ in,out}}  & {\em depth\+Buf} & Depth texture to render to and check against. \\
+\hline
+\mbox{\texttt{ in}}  & {\em mdl} & Model buffer, shader defines how to read this. \\
+\hline
+\mbox{\texttt{ in}}  & {\em uniforms} & Buffer of unchanging values for shader. \\
+\hline
+\mbox{\texttt{ in}}  & {\em n\+Tris} & Number of triangles to render. \\
+\hline
+\end{DoxyParams}

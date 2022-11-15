@@ -1,0 +1,109 @@
+\hypertarget{texture_8h_source}{}\doxysection{texture.\+h}
+\label{texture_8h_source}\index{SGL/sgl/texture.h@{SGL/sgl/texture.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{preprocessor}{\#pragma once}}
+\DoxyCodeLine{2 }
+\DoxyCodeLine{3 \textcolor{preprocessor}{\#include "{}math.h"{}}}
+\DoxyCodeLine{4 \textcolor{preprocessor}{\#include <stdbool.h>}}
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#include <stdlib.h>}}
+\DoxyCodeLine{6 }
+\DoxyCodeLine{18 \textcolor{preprocessor}{\#define SGL\_TEX2D\_RAW   1}}
+\DoxyCodeLine{19 }
+\DoxyCodeLine{25 \textcolor{preprocessor}{\#define SGL\_TEX2D\_DEPTH 2}}
+\DoxyCodeLine{26 }
+\DoxyCodeLine{27 \textcolor{preprocessor}{\#pragma pack(1)}}
+\DoxyCodeLine{28 }
+\DoxyCodeLine{33 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct_s_g_l_b_g_r24}{SGLBGR24}} \{}
+\DoxyCodeLine{34     uint8\_t b, g, r;}
+\DoxyCodeLine{35 \} \mbox{\hyperlink{struct_s_g_l_b_g_r24}{SGLBGR24}};}
+\DoxyCodeLine{36 }
+\DoxyCodeLine{41 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct_s_g_l_b_g_r32}{SGLBGR32}} \{}
+\DoxyCodeLine{42     uint8\_t b, g, r, a;}
+\DoxyCodeLine{43 \} \mbox{\hyperlink{struct_s_g_l_b_g_r32}{SGLBGR32}};}
+\DoxyCodeLine{44 }
+\DoxyCodeLine{49 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct_s_g_l_tex2_d}{SGLTex2D}}}
+\DoxyCodeLine{50 \{}
+\DoxyCodeLine{51     int32\_t type;           \textcolor{comment}{// Type, see TEX2D\_ macros above}}
+\DoxyCodeLine{52     int32\_t w;              \textcolor{comment}{// Width}}
+\DoxyCodeLine{53     int32\_t h;              \textcolor{comment}{// Height}}
+\DoxyCodeLine{54     int32\_t l;              \textcolor{comment}{// Left offset if applicable (for use with sprite textures)}}
+\DoxyCodeLine{55     int32\_t t;              \textcolor{comment}{// Top offset if applicable (for use with sprite textures)}}
+\DoxyCodeLine{56     int32\_t mipmaps;        \textcolor{comment}{// Mipmaps, not currently being used}}
+\DoxyCodeLine{57     \mbox{\hyperlink{struct_s_g_l_b_g_r32}{SGLBGR32}}* rawBuf;       \textcolor{comment}{// Raw color buffer. Size: w * h}}
+\DoxyCodeLine{58     \textcolor{keywordtype}{float}* depthBuf;        \textcolor{comment}{// Depth buffer. Size: w * h, pixels are depth.}}
+\DoxyCodeLine{59 \} \mbox{\hyperlink{struct_s_g_l_tex2_d}{SGLTex2D}};}
+\DoxyCodeLine{60 }
+\DoxyCodeLine{66 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct_s_g_l_b_m_p_header}{SGLBMPHeader}}}
+\DoxyCodeLine{67 \{}
+\DoxyCodeLine{68     uint8\_t szVersion[2];   \textcolor{comment}{// Should have 'BM' signature}}
+\DoxyCodeLine{69     uint32\_t nSize;         \textcolor{comment}{// File size in bytes}}
+\DoxyCodeLine{70     uint32\_t pad;           \textcolor{comment}{// Unused}}
+\DoxyCodeLine{71     uint32\_t nOffset;       \textcolor{comment}{// Offset from beginning of file to data;}}
+\DoxyCodeLine{72 }
+\DoxyCodeLine{73     \textcolor{comment}{/* Info header is right after first header, so it is merged into this class */}}
+\DoxyCodeLine{74     uint32\_t nInfoSize;     \textcolor{comment}{// Size of this info part of the header (=40)}}
+\DoxyCodeLine{75     uint32\_t nWidth;        \textcolor{comment}{// Image width in pixels}}
+\DoxyCodeLine{76     uint32\_t nHeight;       \textcolor{comment}{// Image height in pixels}}
+\DoxyCodeLine{77     uint16\_t nPlanes;       \textcolor{comment}{// Number of planes (=1)}}
+\DoxyCodeLine{78     uint16\_t nPxBits;       \textcolor{comment}{// Number of bits per pixel. This also indicates palette method:}}
+\DoxyCodeLine{79                         \textcolor{comment}{// 1-\/bit:   Monochrome}}
+\DoxyCodeLine{80                         \textcolor{comment}{// 4-\/bit:   16-\/color palette}}
+\DoxyCodeLine{81                         \textcolor{comment}{// 8-\/bit:   256-\/color palette}}
+\DoxyCodeLine{82                         \textcolor{comment}{// 16-\/bit:  65565 colors}}
+\DoxyCodeLine{83                         \textcolor{comment}{// 24-\/bit:  16M colors}}
+\DoxyCodeLine{84     uint32\_t nCompression;  \textcolor{comment}{// Type of compression:}}
+\DoxyCodeLine{85                         \textcolor{comment}{// 0: BI\_BGR    no-\/compression}}
+\DoxyCodeLine{86                         \textcolor{comment}{// 1: BI\_RLE8   8-\/bit RLE encoding}}
+\DoxyCodeLine{87                         \textcolor{comment}{// 2: BI\_RLE4   4-\/bit RLE encoding}}
+\DoxyCodeLine{88     uint32\_t nImageSize;        \textcolor{comment}{// Size of image if compressed, (can =0 if not compressed)}}
+\DoxyCodeLine{89     uint32\_t nXPxPerM;      \textcolor{comment}{// Horizontal resolution, pixels per meter}}
+\DoxyCodeLine{90     uint32\_t nYPxPerM;      \textcolor{comment}{// Vertical resolution, pixels per meter}}
+\DoxyCodeLine{91     uint32\_t nColors;       \textcolor{comment}{// Number of actually used colors (ie. 256 for 8-\/bit color)}}
+\DoxyCodeLine{92     uint32\_t nImptColors;   \textcolor{comment}{// Number of important colors (=0 for all) }}
+\DoxyCodeLine{93 \} \mbox{\hyperlink{struct_s_g_l_b_m_p_header}{SGLBMPHeader}};}
+\DoxyCodeLine{94 }
+\DoxyCodeLine{95 \textcolor{preprocessor}{\#pragma pack(pop)}}
+\DoxyCodeLine{96 }
+\DoxyCodeLine{108 \textcolor{keywordtype}{void} \mbox{\hyperlink{group___s_g_l_tex2_d_ga974f4880b391ef3a84e283c1ae8ad32a}{sglTex2DInit}}(\mbox{\hyperlink{struct_s_g_l_tex2_d}{SGLTex2D}} * tex, int32\_t type, int32\_t w,}
+\DoxyCodeLine{109     int32\_t h, int32\_t l, int32\_t t);}
+\DoxyCodeLine{110 }
+\DoxyCodeLine{117 \textcolor{keywordtype}{void} \mbox{\hyperlink{group___s_g_l_tex2_d_ga4ff6ba46bef4dbae4c2b1fe10e4f6c49}{sglTex2DFree}}(\mbox{\hyperlink{struct_s_g_l_tex2_d}{SGLTex2D}}* tex);}
+\DoxyCodeLine{118 }
+\DoxyCodeLine{126 \textcolor{keywordtype}{void} \mbox{\hyperlink{group___s_g_l_tex2_d_ga0783634e21ec256a9d85ee2b81c7219b}{sglTex2DColorFill}}(\mbox{\hyperlink{struct_s_g_l_tex2_d}{SGLTex2D}}* tex, \mbox{\hyperlink{struct_s_g_l_b_g_r32}{SGLBGR32}} color);}
+\DoxyCodeLine{127 }
+\DoxyCodeLine{134 \textcolor{keywordtype}{void} \mbox{\hyperlink{group___s_g_l_tex2_d_gab33aa651f5153d54f3cca01064805cf3}{sglTex2DDepthReset}}(\mbox{\hyperlink{struct_s_g_l_tex2_d}{SGLTex2D}}* tex);}
+\DoxyCodeLine{135 }
+\DoxyCodeLine{144 SGL\_INLINE \textcolor{keywordtype}{void} \mbox{\hyperlink{group___s_g_l_tex2_d_ga740d67ff6ab98c9544516baa44f8364c}{sglBGR32ToVec4}}(\mbox{\hyperlink{struct_s_g_l_b_g_r32}{SGLBGR32}} in, SGLVec4 out)}
+\DoxyCodeLine{145 \{}
+\DoxyCodeLine{146     out[0] = (float)in.r / 255.0f;}
+\DoxyCodeLine{147     out[1] = (\textcolor{keywordtype}{float})in.g / 255.0f;}
+\DoxyCodeLine{148     out[2] = (float)in.b / 255.0f;}
+\DoxyCodeLine{149     out[3] = (\textcolor{keywordtype}{float})in.a / 255.0f;}
+\DoxyCodeLine{150 \}}
+\DoxyCodeLine{151 }
+\DoxyCodeLine{160 SGL\_INLINE \textcolor{keywordtype}{void} \mbox{\hyperlink{group___s_g_l_tex2_d_ga57a388f9a7370da82ea3f2d329f14151}{sglVec4ToBGR32}}(SGLVec4 in, \mbox{\hyperlink{struct_s_g_l_b_g_r32}{SGLBGR32}} *out)}
+\DoxyCodeLine{161 \{}
+\DoxyCodeLine{162     out-\/>r = (uint8\_t)(in[0] * 255.0f);}
+\DoxyCodeLine{163     out-\/>g = (uint8\_t)(in[1] * 255.0f);}
+\DoxyCodeLine{164     out-\/>b = (uint8\_t)(in[2] * 255.0f);}
+\DoxyCodeLine{165     out-\/>a = (uint8\_t)(in[3] * 255.0f);}
+\DoxyCodeLine{166 \}}
+\DoxyCodeLine{167 }
+\DoxyCodeLine{181 SGL\_INLINE \textcolor{keywordtype}{void} \mbox{\hyperlink{group___s_g_l_tex2_d_ga782597566b484bdb711874aae618a418}{sglTex2DSample}}(\mbox{\hyperlink{struct_s_g_l_tex2_d}{SGLTex2D}}* tex, SGLVec4 col, \textcolor{keywordtype}{float} u, \textcolor{keywordtype}{float} v)}
+\DoxyCodeLine{182 \{}
+\DoxyCodeLine{183     int32\_t x, y;}
+\DoxyCodeLine{184 }
+\DoxyCodeLine{185     x = (int32\_t)(u * (\textcolor{keywordtype}{float})tex-\/>w);}
+\DoxyCodeLine{186     y = (int32\_t)(v * (\textcolor{keywordtype}{float})tex-\/>h);}
+\DoxyCodeLine{187     x \%= tex-\/>w;}
+\DoxyCodeLine{188     y \%= tex-\/>h;}
+\DoxyCodeLine{189 }
+\DoxyCodeLine{190     \mbox{\hyperlink{group___s_g_l_tex2_d_ga740d67ff6ab98c9544516baa44f8364c}{sglBGR32ToVec4}}(tex-\/>rawBuf[x + y * tex-\/>w], col);}
+\DoxyCodeLine{191 \}}
+\DoxyCodeLine{192 }
+\DoxyCodeLine{202 \textcolor{keywordtype}{void} \mbox{\hyperlink{group___s_g_l_tex2_d_ga7ca272c7a93d7d9084a8180cfcd4a0ad}{sglTex2DLoadBMP}}(\mbox{\hyperlink{struct_s_g_l_tex2_d}{SGLTex2D}}* tex, uint8\_t* fname);}
+\DoxyCodeLine{203 }
+\DoxyCodeLine{213 \textcolor{keywordtype}{void} \mbox{\hyperlink{group___s_g_l_tex2_d_gaa6fb98525f080f6f29fc38f89a0b5fb4}{sglTex2DSaveBMP}}(\mbox{\hyperlink{struct_s_g_l_tex2_d}{SGLTex2D}}* tex, uint8\_t* fname);}
+
+\end{DoxyCode}

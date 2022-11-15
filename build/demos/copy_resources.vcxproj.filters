@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\alekm\Documents\Projects\SoftwareRenderer\build\CMakeFiles\a444f19612caaa5bd9d1041343aeb5a3\copy_resources.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\Users\alekm\Documents\Projects\SoftwareRenderer\demos\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="C:\Users\alekm\Documents\Projects\SoftwareRenderer\build\demos\CMakeFiles\copy_resources" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{3768973B-7BB3-369B-BE31-F190F49099D6}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

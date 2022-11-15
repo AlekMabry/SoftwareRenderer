@@ -1,0 +1,11 @@
+LIBRARY sgl
+DESCRIPTION "Software Graphics Library"
+VERSION 1.0
+EXPORTS
+    sglTex2DInit @1
+    sglTex2DFree @2
+    sglTex2DColorFill @3
+    sglTex2DDepthReset @4
+    sglTex2DLoadBMP @5
+    sglTex2DSaveBMP @6
+    sglRenderTris @7
