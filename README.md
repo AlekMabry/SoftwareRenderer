@@ -22,9 +22,6 @@ This demo uses the full capabilities of the library to do physically-based rende
 * Export per-vertex attributes from the vertex shader to be interpolated for use in a fragment shader.
 <img src="screenshots/PBRSceneDemo.jpg" alt="Screenshot of PBR Render"/>
 
-## Project Structure
-`SGL/` contains the source for the SGL library, which compiles to sgl.DLL. `demos/` contains the sample
-
 ## Building
 SGL is a general purpose library that can be compiled on any platform, however I have only tested this build configuration on Windows.
 
