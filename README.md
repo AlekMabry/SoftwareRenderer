@@ -1,4 +1,3 @@
-<img src="screenshots/PBRSceneDemo.jpg" alt="Screenshot of PBR Render"/>
 # SoftwareGL (SGL)
 A portable 3D graphics library written in C for processors lacking SIMD functionality. It supports a custom render pipeline through vertex and fragment shaders.
 
@@ -21,6 +20,7 @@ This demo uses the full capabilities of the library to do physically-based rende
 * Write vertex shaders to decompress custom model formats.
 * Pass custom uniform values to shaders, such as transformation matrices, lights, and textures.
 * Export per-vertex attributes from the vertex shader to be interpolated for use in a fragment shader.
+<img src="screenshots/PBRSceneDemo.jpg" alt="Screenshot of PBR Render"/>
 
 ## Project Structure
 `SGL/` contains the source for the SGL library, which compiles to sgl.DLL. `demos/` contains the sample
