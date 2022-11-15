@@ -1,8 +1,0 @@
-C:/Users/alekm/Documents/Projects/SoftwareRenderer/build/CMakeFiles/INSTALL.dir
-C:/Users/alekm/Documents/Projects/SoftwareRenderer/build/CMakeFiles/ALL_BUILD.dir
-C:/Users/alekm/Documents/Projects/SoftwareRenderer/build/CMakeFiles/ZERO_CHECK.dir
-C:/Users/alekm/Documents/Projects/SoftwareRenderer/build/SGL/CMakeFiles/SGL.dir
-C:/Users/alekm/Documents/Projects/SoftwareRenderer/build/SGL/CMakeFiles/INSTALL.dir
-C:/Users/alekm/Documents/Projects/SoftwareRenderer/build/demos/CMakeFiles/DrawTexture.dir
-C:/Users/alekm/Documents/Projects/SoftwareRenderer/build/demos/CMakeFiles/copy_resources.dir
-C:/Users/alekm/Documents/Projects/SoftwareRenderer/build/demos/CMakeFiles/INSTALL.dir

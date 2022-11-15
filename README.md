@@ -1,9 +1,9 @@
-# SoftwareGL (SGL)
 <img src="screenshots/PBRSceneDemo.jpg" alt="Screenshot of PBR Render"/>
-This is a 3D graphics library written in C that I developed in highschool for use on very weak microprocessors that lacked SIMD support. This repository is an x86_64 port of the library. It contains improvements over the original, such as a programmable graphics pipeline with shader support.
+# SoftwareGL (SGL)
+A portable 3D graphics library written in C for processors lacking SIMD functionality. It supports a custom render pipeline through vertex and fragment shaders.
 
 ## Documentation
-[Read Here]()
+[Read Here](https://alekmabry.github.io/SoftwareRenderer/html/modules.html)
 
 ## Demos
 Demo programs are available in `demos/`. They use the SDL2 library to view the renders, as SGL is a general purpose rendering library that doesn't contain OS-specific window functionality.
@@ -14,7 +14,7 @@ Introduces the `SGLTex2D` type and how to load images into it. `SGLTex2D` is the
 
 ### RenderTriangle.c
 Introduces the programmable render pipeline. Creates a custom vertex and fragment shader to render a hard coded triangle.
-<img src="screenshots/LoadTextureDemo.jpg" alt="Screenshot of Texture Loading Demo"/>
+<img src="screenshots/RenderTriangleDemo.jpg" alt="Screenshot of Triangle Rendering Demo"/>
 
 ### PBRScene.c
 This demo uses the full capabilities of the library to do physically-based rendering (PBR). It demonstrates how to:
@@ -26,7 +26,7 @@ This demo uses the full capabilities of the library to do physically-based rende
 `SGL/` contains the source for the SGL library, which compiles to sgl.DLL. `demos/` contains the sample
 
 ## Building
-SGL is a general purpose library that can be compiled on any platform, however I have only tested this build setup on Windows.
+SGL is a general purpose library that can be compiled on any platform, however I have only tested this build configuration on Windows.
 
 * `SGL/` contains the source for the library, which compiles to `sgl.DLL` and `sgl.lib`.
 * `demos/` contains the source for the demo executables, as well as a copy of the Windows x64 SDL2 library. To compile these on another platform, the CMakeLists.txt will need to be modified to look for the correct platform-specific binaries.
