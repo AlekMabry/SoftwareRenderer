@@ -75,7 +75,7 @@ typedef struct SGLShader
 									but this is given if accessing a triangle
 									in your model depends on this value.
 	*/
-	void(*vertShd)(SGLTri tri, float* vertOutBuf, void* mdlPtr,
+	void(*vertShd)(SGLTriVec4 tri, float* vertOutBuf, void* mdlPtr,
 		void* uniforms, uint32_t iTri, uint32_t nTris);
 
 	/**

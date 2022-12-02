@@ -53,21 +53,24 @@ const uint32_t height = 720;
 								but this is given if accessing a triangle
 								in your model depends on this value.
 */
-void vertexShader(SGLTri tri, float* vertOutBuf, void* mdlPtr,
+void vertexShader(SGLTriVec4 tri, float* vertOutBuf, void* mdlPtr,
 	void* uniforms, uint32_t iTri, uint32_t nTris)
 {
 	// Return coordinates in screenspace of triangle
 	tri[0][0] = -0.5f;		// Point 0
 	tri[0][1] = -0.5f;
 	tri[0][2] = 0.0f;
+	tri[0][3] = 1.0f;		// w coordinate
 
-	tri[1][0] = 0.0f;		// Point 1
-	tri[1][1] = 0.5f;
-	tri[1][2] = 0.0f;
+	tri[1][0] = 0.5f;		// Point 1
+	tri[1][1] = -0.5f;
+	tri[1][2] = 0.5f;
+	tri[1][3] = 1.0f;
 
-	tri[2][0] = 0.5f;		// Point 2
-	tri[2][1] = -0.5f;
-	tri[2][2] = 0.0f;
+	tri[2][0] = 0.0f;		// Point 2
+	tri[2][1] = 0.5f;
+	tri[2][2] = 1.0f;
+	tri[2][3] = 1.0f;
 
 	// Return attributes of the triangle (color at each vertex)
 	vertOutBuf[0] = 1.0f;	// Point 0 : Blue

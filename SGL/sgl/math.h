@@ -14,12 +14,14 @@
 	@brief Vector math graphics functions, based on cglm library.
 */
 
-typedef float SGLVec2[2];
-typedef int32_t SGLVec2I[2];
-typedef float SGLVec3[3];
+typedef float SGLVec2[4];
+typedef int32_t SGLVec2I[4];
+typedef float SGLVec3[4];
+typedef int32_t SGLVec3I[4];
 typedef float SGLVec4[4];
 typedef SGLVec4 SGLMat4[4];
-typedef SGLVec3 SGLTri[3];
+typedef SGLVec4 SGLTriVec4[3];
+typedef SGLVec2I SGLTriVec2I[3];
 
 #define SGL_MAT4_IDENTITY_INIT	{{1.0f, 0.0f, 0.0f, 0.0f},	\
 								{0.0f, 1.0f, 0.0f, 0.0f},	\
@@ -247,6 +249,90 @@ SGL_INLINE void sglVec2Barycentric(SGLVec2 p, SGLVec2 a, SGLVec2 b, SGLVec2 c,
 	*v = (d11 * d20 - d01 * d21) / denom;
 	*w = (d00 * d21 - d01 * d20) / denom;
 	*u = 1.0f - *v - *w;
+}
+
+/**
+	@ingroup SGLMath
+	Determinant of [[a[0] a[1] 1], [b[0] b[1] 1], [c[0] c[1] 1]] 
+*/
+SGL_INLINE int32_t sglVec2IOrient(SGLVec2I a, SGLVec2I b, SGLVec2I c)
+{
+	//return (b[0] - a[0]) * (c[1] - a[1]) - (b[1] - a[1]) * (c[0] - a[0]);
+	return (a[0] * (b[1] - c[1])) + (b[0] * (c[1] - a[1])) + (c[0] * (a[1] - b[1]));
+}
+
+/**
+	@ingroup SGLMath
+*/
+SGL_INLINE void sglVec2IMin(SGLVec2I a, SGLVec2I b, SGLVec2I dest)
+{
+	dest[0] = (a[0] < b[0]) ? a[0] : b[0];
+	dest[1] = (a[1] < b[1]) ? a[1] : b[1];
+}
+
+/**
+	@ingroup SGLMath
+*/
+SGL_INLINE void sglVec2IMax(SGLVec2I a, SGLVec2I b, SGLVec2I dest)
+{
+	dest[0] = (a[0] > b[0]) ? a[0] : b[0];
+	dest[1] = (a[1] > b[1]) ? a[1] : b[1];
+}
+
+/**
+	@ingroup SGLMath
+*/
+SGL_INLINE void sglTriVec2IBBox(SGLTriVec2I tri, SGLVec2I minVec, SGLVec2I maxVec)
+{
+	sglVec2IMin(tri[0], tri[1], minVec);
+	sglVec2IMin(minVec, tri[2], minVec);
+	sglVec2IMax(tri[0], tri[1], maxVec);
+	sglVec2IMax(maxVec, tri[2], maxVec);
+}
+
+/**
+	@ingroup SGLMath
+*/
+SGL_INLINE void sglVec2IClipBBox(SGLVec2I minVec, SGLVec2I maxVec,
+	SGLVec2I lowerBound, SGLVec2I upperBound)
+{
+	sglVec2IMax(minVec, lowerBound, minVec);
+	sglVec2IMin(maxVec, upperBound, maxVec);
+}
+
+/**
+	@ingroup SGLMath
+*/
+SGL_INLINE void sglVec3PerspectiveDivide(SGLVec4 in, SGLVec4 dest)
+{
+	dest[0] = in[0] / in[3];
+	dest[1] = in[1] / in[3];
+	dest[2] = in[2] / in[3];
+}
+
+/**
+	@ingroup SGLMath
+	Converts NDC coordinate (-1.0f < SGLVec3 < 1.0f) to screen space
+	(0 < SGLVec2I < screen dimensions) with subpixel precision.
+*/
+SGL_INLINE void sglVec2IScreenSpaceFromNDC(SGLVec4 ndc, int32_t w, int32_t h,
+	uint32_t precision, SGLVec2I dest)
+{
+
+	dest[0] = (int32_t)(((ndc[0] + 1.0f) * 0.5f) * (float)w * (float)precision);
+	dest[1] = (int32_t)(((ndc[1] + 1.0f) * 0.5f) * (float)h * (float)precision);
+}
+
+/**
+	@ingroup SGLMath
+	Converts screen space (0 < SGLVec2I < screen dimensions) with subpixel precision to
+	NDC coordinate (-1.0f < SGLVec3 < 1.0f).
+*/
+SGL_INLINE void sglVec2NDCToScreenspace(SGLVec2I screenspace, int32_t w, int32_t h,
+	uint32_t precision, SGLVec2 dest)
+{
+	dest[0] = (float)(((float)screenspace[0] / (float)w * (float)precision * 2.0f) - 1.0f);
+	dest[1] = (float)(((float)screenspace[1] / (float)h * (float)precision * 2.0f) - 1.0f);
 }
 
 /**

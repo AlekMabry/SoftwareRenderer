@@ -114,7 +114,7 @@ void loadObj(uint8_t *fname, Mesh *mesh)
 	fclose(obj);
 }
 
-void vertexShader(SGLTri tri, float* vertOutBuf, void* mdlPtr,
+void vertexShader(SGLTriVec4 tri, float* vertOutBuf, void* mdlPtr,
 	void* uniforms, uint32_t iTri, uint32_t nTris)
 {
 	// Reinterpret passed-in general pointers
@@ -135,13 +135,12 @@ void vertexShader(SGLTri tri, float* vertOutBuf, void* mdlPtr,
 		interpolation. */ 
 		sglVec3Copy(pos, (SGLVec3*)&vertOutBuf[14 * i]);
 
-		/* Transform vertex to clip coordinates using transformation matrix,
-		then do perspective divide to get normalised device coordinates
-		to return from the shader. */
+		/* Transform vertex to clip coordinates using transformation matrix. */
 		sglMat4Vec4Mul(u->transform, pos, pos);
-		tri[i][0] = pos[0] / pos[3];
-		tri[i][1] = pos[1] / pos[3];
-		tri[i][2] = pos[2] / pos[3];
+		tri[i][0] = pos[0];
+		tri[i][1] = pos[1];
+		tri[i][2] = pos[2];
+		tri[i][3] = pos[3];
 
 		vertOutBuf[(14 * i) + 12] = mesh->uvs[mesh->faces[iTri].uvIndex[i] - 1][0];
 		vertOutBuf[(14 * i) + 13] = mesh->uvs[mesh->faces[iTri].uvIndex[i] - 1][1];

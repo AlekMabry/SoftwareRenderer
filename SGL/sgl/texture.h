@@ -180,10 +180,10 @@ SGL_INLINE void sglVec4ToBGR32(SGLVec4 in, SGLBGR32 *out)
 */
 SGL_INLINE void sglTex2DSample(SGLTex2D* tex, SGLVec4 col, float u, float v)
 {
-	int32_t x, y;
+	uint32_t x, y;
 
-	x = (int32_t)(u * (float)tex->w);
-	y = (int32_t)(v * (float)tex->h);
+	x = (uint32_t)(u * (float)tex->w);
+	y = (uint32_t)(v * (float)tex->h);
 	x %= tex->w;
 	y %= tex->h;
 
