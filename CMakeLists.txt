@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.21)
 
 project(SoftwareRenderer C)
 
@@ -6,4 +6,5 @@ project(SoftwareRenderer C)
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 add_subdirectory(SGL)       # SGL.DLL
+add_subdirectory(SGLExt)    # SGLExt.DLL
 add_subdirectory(Demos)     # Demo executables

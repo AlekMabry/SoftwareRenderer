@@ -1,6 +1,3 @@
-# Properties
-
-# Include <sgl.h> and <sgl/*.h>
 include_directories (${PROJECT_SOURCE_DIR}/SGL)
 include_directories (${PROJECT_SOURCE_DIR}/demos/include/SDL2-2.24.2)
 
@@ -38,13 +35,6 @@ add_custom_target(COPY_SDL ALL
     ${PROJECT_BINARY_DIR}/bin/)
 
 add_dependencies(LoadTexture COPY_ASSETS COPY_SDL)
-
-install (TARGETS LoadTexture
-    RUNTIME DESTINATION )
-install (TARGETS RenderTriangle
-    RUNTIME DESTINATION )
-install (TARGETS PBRScene
-    RUNTIME DESTINATION )
 
 install (TARGETS LoadTexture
     RUNTIME DESTINATION ${PROJECT_SOURCE_DIR}/install)

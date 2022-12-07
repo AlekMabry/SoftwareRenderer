@@ -9,3 +9,6 @@ EXPORTS
     sglTex2DLoadBMP @5
     sglTex2DSaveBMP @6
     sglRenderTris @7
+    sglCacheTris @8
+    sglCreateShader @9
+    sglBinTris @10

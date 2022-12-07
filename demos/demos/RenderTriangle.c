@@ -13,101 +13,46 @@ not include any OS-specific window system capabilities.
 #include <sgl.h>
 #include <stdio.h>
 #include <SDL.h>
+#include <stdlib.h>
+#include <memory.h>
 
 const uint32_t width = 1280;
 const uint32_t height = 720;
 
-/**
-	@brief The vertex shader serves the purpose of returning
-	a triangle in NDC (normalized device coordinates), as well as
-	returning a buffer containing other vertex attributes such as
-	position/normals/UVs. For this demo, it is hardcoded to return a
-	set triangle, regardless of model input to the shader.
-
-	@param[in,out] tri			Returned triangle (in NDC).
-
-	@param[in,out] vertOutBuf	Vertex attributes to be interpolated
-								for the frag shader. For this demo, we are
-								outputing a float[3][3] array, representing
-								RGB values at the 3 vertices of the triangle.
-
-	@param[in] mdlPtr			The pointer to the model to calculate
-								the output triangle from. There is no
-								predefined model format, the user can
-								give the renderer any model they want
-								and interpret it in this function. In this
-								demo, there is no model as the shader is
-								hardcoded to return the same triangle
-								every time it is called.
-
-	@param[in] uniforms			Unchanging variables throughout the render
-								(ie: perspective/lighting/textures). This
-								is not used in this demo.
-
-	@param[in] iTri				Index of triangle to calculate. This is
-								ignored as this shader only returns
-								a single hardcoded triangle very time.
-
-	@param[in] nTris			Total triangles being rendered. This
-								function only calculates one triangle
-								but this is given if accessing a triangle
-								in your model depends on this value.
-*/
-void vertexShader(SGLTriVec4 tri, float* vertOutBuf, void* mdlPtr,
-	void* uniforms, uint32_t iTri, uint32_t nTris)
+typedef struct Vertex
 {
-	// Return coordinates in screenspace of triangle
-	tri[0][0] = -0.5f;		// Point 0
-	tri[0][1] = -0.5f;
-	tri[0][2] = 0.0f;
-	tri[0][3] = 1.0f;		// w coordinate
+	SGLFloat4 position;
+	SGLFloat4 color;
+} Vertex;
 
-	tri[1][0] = 0.5f;		// Point 1
-	tri[1][1] = -0.5f;
-	tri[1][2] = 0.5f;
-	tri[1][3] = 1.0f;
+const float mdl[96] = {
+	-0.8f, -0.8f, 0.0f, 1.0f,	1.0f, 0.0f, 0.0f, 1.0f,
+	-0.3f, -0.2f, 0.0f, 1.0f,	1.0f, 0.0f, 0.0f, 1.0f,
+	-0.7f, -0.5f, 0.0f, 1.0f,	1.0f, 0.0f, 0.0f, 1.0f,
 
-	tri[2][0] = 0.0f;		// Point 2
-	tri[2][1] = 0.5f;
-	tri[2][2] = 1.0f;
-	tri[2][3] = 1.0f;
+	0.1f, -0.1f, 0.0f, 1.0f,	0.0f, 1.0f, 0.0f, 1.0f,
+	0.3f, -0.4f, 0.0f, 1.0f,	0.0f, 1.0f, 0.0f, 1.0f,
+	1.0f, -0.3f, 0.0f, 1.0f,	0.0f, 1.0f, 0.0f, 1.0f,
 
-	// Return attributes of the triangle (color at each vertex)
-	vertOutBuf[0] = 1.0f;	// Point 0 : Blue
-	vertOutBuf[1] = 0.0f;
-	vertOutBuf[2] = 0.0f;
+	0.0f, 0.0f, 0.0f, 1.0f,		0.0f, 0.0f, 1.0f, 1.0f,
+	1.0f, 0.0f, 0.0f, 1.0f,		0.0f, 0.0f, 1.0f, 1.0f,
+	0.0f, 1.0f, 0.0f, 1.0f,		0.0f, 0.0f, 1.0f, 1.0f,
 
-	vertOutBuf[3] = 0.0f;	// Point 1 : Green
-	vertOutBuf[4] = 1.0f;
-	vertOutBuf[5] = 0.0f;
+	-0.2f, 0.1f, 0.0f, 1.0f,	1.0f, 1.0f, 0.0f, 1.0f,
+	-0.4f, 0.7f, 0.0f, 1.0f,	1.0f, 1.0f, 0.0f, 1.0f,
+	-0.8f, 0.3f, 0.0f, 1.0f,	1.0f, 1.0f, 0.0f, 1.0f,
+};
 
-	vertOutBuf[6] = 0.0f;	// Point 2 : Red
-	vertOutBuf[7] = 0.0f;
-	vertOutBuf[8] = 1.0f;
+void vertexShader(float* vertAttrBuf, const uint32_t vertSize, const void* mdl,
+	const void* uniforms, const uint32_t tri)
+{
+	uint32_t triSize = vertSize * 3;
+	float* model = mdl;
+	memcpy(vertAttrBuf, &model[triSize * tri], triSize * sizeof(float));
 }
 
-/**
-	@brief The fragment shader serves the purpose of calculating
-	the color for the current fragment (pixel) using the passed-in
-	interpolated vertex attributes, as well as anything else given in
-	the uniform buffer.
-
-	@param[in] vertBuf		Interpolated vertex attributes at that frag,
-							in this case it is the float[3] representing
-							RGB color that we generated for each vertex
-							in the vertex shader.
-
-	@param[in] uniforms		Unchanging variables throughout the render,
-							such as transformation matrices or textures.
-							In this demo uniforms aren't passed to the
-							renderer, so this can be ignored.
-
-	@param[in,out] color	Color calculated for this fragment.
-*/
 void fragmentShader(SGLBGR32* color, float* fragInBuf, void* uniforms)
 {
-	// Convert color attribute from float[3] to GLBGR32. This demo used
-	// [0, 1.0f] for each color, so it just needs to be scaled to [0,255]
 	color->b = (uint8_t)(fragInBuf[0] * 255.0f);
 	color->g = (uint8_t)(fragInBuf[1] * 255.0f);
 	color->r = (uint8_t)(fragInBuf[2] * 255.0f);
@@ -115,31 +60,27 @@ void fragmentShader(SGLBGR32* color, float* fragInBuf, void* uniforms)
 
 int main()
 {
-	// Create framebuffer and depthbuffer textures to render to
 	SGLTex2D framebuf, depthbuf;
 	sglTex2DInit(&framebuf, SGL_TEX2D_RAW, width, height, 0, 0);
 	sglTex2DColorFill(&framebuf, (SGLBGR32){0, 0, 0, 255});
 	sglTex2DInit(&depthbuf, SGL_TEX2D_DEPTH, width, height, 0, 0);
 	sglTex2DDepthReset(&depthbuf);
 
-	// Configure shader	
 	SGLShader gradientShader;
-	uint32_t vertAttributes[1] = { SGL_SHD_VEC3 };	/* Array of attribute types
-													at each vertex. For this
-													demo, only a single SGLVec3
-													containing the color at
-													each vertex is used. */
-	gradientShader.vertValues = &vertAttributes;
-	gradientShader.nVertValues = 1;					/* Number of attributes per
-													vertex, in this case it is
-													only a single SGLVec3 color
-													attribute. */
-	gradientShader.vertShd = &vertexShader;
-	gradientShader.fragShd = &fragmentShader;
+	sglCreateShader(&gradientShader, &vertexShader, &fragmentShader, 4);
 
-	/* Render to framebuffer/depthbuffer. In this demo the shader always outputs
-	the same triangle so no model or uniforms are necessary. */
-	sglRenderTris(&gradientShader, &framebuf, &depthbuf, NULL, NULL, 1);
+	SGLRenderInfo info;
+	info.shd = &gradientShader;
+	info.mdl = &mdl;
+	info.triStart = 0;
+	info.triCount = 4;
+	info.frameTarget = &framebuf;
+	info.depthTarget = &depthbuf;
+
+	float* cache = _aligned_malloc(8 * 3 * 4, 16);
+	sglCacheTris(&info, cache);
+	sglBinTris(&info, cache, 0, 4);
+
 
 	/*****************************************************************************
 	End of SoftwareGL demo, using SDL2 library to display the framebuffer on PC.
