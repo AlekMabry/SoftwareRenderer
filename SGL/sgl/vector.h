@@ -143,9 +143,12 @@ SGL_INLINE void sglFloat4Add(SGLFloat4 a, SGLFloat4 b, SGLFloat4 dest)
 	*((__m128*) dest) = _mm_add_ps(*((__m128*) a), *((__m128*) b));
 }
 
-SGL_INLINE void sglFloat4Sub(SGLFloat4 a, SGLFloat4 b, SGLFloat4 dest)
+SGL_INLINE void sglFloat4Sub(SGLFloat4* a, SGLFloat4* b, SGLFloat4* dest)
 {
-	*((__m128*) dest) = _mm_sub_ps(*((__m128*) a), *((__m128*) b));
+	dest->v = _mm_sub_ps(a->v, b->v);
+	//*((__m128*) dest) = _mm_sub_ps(*((__m128*) a), *((__m128*) b));
+	__m128 v;
+	v.
 }
 
 SGL_INLINE void sglFloat4Mul(SGLFloat4 a, SGLFloat4 b, SGLFloat4 dest)

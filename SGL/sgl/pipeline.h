@@ -4,35 +4,30 @@
 #include "image.h"
 #include "vector.h"
 
-/**	User-programmed and passed to renderer. Calculates on-screen
-	coordinates of every triangle vertex, as well as the color for any given
-	pixel being rasterized.
-
-	Render Pipeline:
-	-# 	Vertex shader feeds in triangle coordinates in NDC format
-		(Normalized Device Coordinates), as well as other
-		per-vertex values it would like to interpolate and later
-		feed to the frag shader.
-	-# 	Using these NDC triangle coordinates, the rasterizer
-		calculates pixel positions of the triangles on the texture,
+/**	Render Pipeline:
+	-# 	Vertex shader transforms vertices to clip coordinates and
+		outputs any per-vertex attributes needed in the fragment shader.
+	-# 	After doing the perspective divide (divide <x, y, z> by w) on the
+		clip coordinates to get NDC (normalized device coordinates), the
+		rasterizer calculates pixel positions of the triangles on the texture,
 		and interpolates the per-vertex values given by the vertex
 		shader into values for the particular fragment (pixel).
 	-# 	The fragment shader is called, with the interpolated
 		fragment values fed in, and it calculates the color to
 		be drawn at that particular fragment. */
-typedef struct SGLShader
+typedef struct SglPipeline
 {
-	SGLType sType;
+	SglType type;
 
-	/** The number of scalar vertex attributes to interpolate and pass between
-		the vertex and fragment shader.
-		
-		For example if you wanted to pass an interpolated position and UV
-		coordinate to the fragment shader, this value would be 5. */
-	uint32_t vertAttributes;
+	uint32_t vertStride;	/** Size of vertex in floats. */
 
-	/**	Size of each vertex in floats (must be a multiple of 4). */
-	uint32_t vertSize;
+	/** The number of scalar vertex attributes to interpolate and pass from
+		the vertex shader to the fragment shader.
+
+		For example if you wanted to pass an interpolated position (Float3) and
+		texture coordinate (Float2) to the fragment shader, this value would
+		be 5. */
+	uint32_t vertAttributeCount;
 
 	/** The vertex shader serves the purpose of returning
 		a triangle in right-hand clip space, other vertex attributes such as
@@ -51,7 +46,7 @@ typedef struct SGLShader
 									(ie: perspective/lighting/textures).
 		@param[in]		tri			Index of triangle to calculate. */
 	void(*pVertShd)(const uint32_t vertSize, const void* pMesh,
-		const void* pUniforms, const uint32_t tri, float* pVertAttrBuf);
+		const void* pUniforms, const uint32_t tri, float* pOut);
 
 	/** The fragment shader serves the purpose of returning
 		the color for the current fragment (pixel) using the passed-in
@@ -63,9 +58,16 @@ typedef struct SGLShader
 									(ie: position, uv, normal).
 		@param[in]		uniforms	Unchanging variables throughout the render
 									(ie: perspective/lighting/textures). */
-	void(*pFragShd)(const float* pFragAttrBuf, const void* pUniforms,
+	void(*pFragShd)(const float* pIn, const void* pUniforms,
 		SGLBGRA* pColor);
-} SGLShader;
+} SglPipeline;
+
+typedef struct SglRenderpass
+{
+	SglImage* pFramebuffer;
+	SglBGRA clearColor;
+	float clearDepth;
+} SglRenderpass;
 
 typedef struct SGLMeshInfo
 {
@@ -105,15 +107,6 @@ typedef struct SGLInstance
 	uint32_t vertCacheSP;	/** Vertex cache stack pointer. */
 	SGLTargetInfo* pTarget;
 } SGLInstance;
-
-/**	Creates a shader.
-	@param[in]	vertShd			User vertex shader function
-								(see SGLShader void(*vertShd) for prototype)
-	@param[in]	fragShd			User fragment shader function
-								(see SGLShader void(*fragShd) for prototype)
-	@param[in]	vertAttrCount	*/
-SGL_EXPORT void sglCreateShader(const void* pVertShd, const void* pFragShd,
-	uint32_t vertAttrs, SGLShader* pShader);
 
 /** Creates a target info struct. */
 SGL_EXPORT void sglCreateTargetInfo(SGLTargetInfo* target,

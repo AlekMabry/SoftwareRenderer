@@ -22,24 +22,26 @@
 #define SGL_MALLOC(size)_aligned_malloc(size, 16)
 #define SGL_DEPTH_FAR					1.0f
 
-typedef uint32_t SGLType;
+typedef uint32_t SglType;
 
 #define SGL_TYPE_INSTANCE				1
 #define SGL_TYPE_CALLBACK				2
 #define SGL_TYPE_COMMAND_BUFFER			3
-#define SGL_TYPE_TEX2D_BGRA				4
-#define SGL_TYPE_TEX2D_FLOAT			5
+#define SGL_TYPE_IMAGE_BGRA				4
+#define SGL_TYPE_IMAGE_FLOAT			5
 #define SGL_TYPE_SHADER					6
 #define SGL_TYPE_MESH					7
+#define SGL_TYPE_TARGET_INFO			8
+#define SGL_TYPE_BIN					9
 
 /** Prototype struct for an SGL object. All objects in SGL will contain a type
 	member. */
-typedef struct SGLObject
+typedef struct SglObject
 {
-	SGLType sType;
+	SglType sType;
 } SGLObject;
 
-typedef uint32_t SGLCallbackSeverityFlags;
+typedef uint32_t SglCallbackSeverityFlags;
 
 #define SGL_CALLBACK_SEVERITY_INFO		1	/** Informational message like resource creation. */
 #define SGL_CALLBACK_SEVERITY_WARNING	2	/** Behaviour that is not necessarily an error */
@@ -55,7 +57,7 @@ typedef uint32_t SGLCallbackSeverityFlags;
 	@param[in]	...					Arguments for message format.
 									callback. */
 extern void sglValidationCallback(
-	const SGLCallbackSeverityFlags callbackSeverity,
+	const SglCallbackSeverityFlags callbackSeverity,
 	const SGLObject** pObjects, uint32_t objects,
 	const uint8_t* pMessage, ...);
 #else

@@ -14,6 +14,7 @@ not include any OS-specific window system capabilities.
 #include <stdio.h>
 #include <SDL.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include <memory.h>
 
 const uint32_t width = 1280;
@@ -25,7 +26,7 @@ typedef struct Vertex
 	SGLFloat4 color;
 } Vertex;
 
-const float mdl[96] = {
+const float mesh[96] = {
 	-0.8f, -0.8f, 0.0f, 1.0f,	1.0f, 0.0f, 0.0f, 1.0f,
 	-0.3f, -0.2f, 0.0f, 1.0f,	1.0f, 0.0f, 0.0f, 1.0f,
 	-0.7f, -0.5f, 0.0f, 1.0f,	1.0f, 0.0f, 0.0f, 1.0f,
@@ -43,43 +44,55 @@ const float mdl[96] = {
 	-0.8f, 0.3f, 0.0f, 1.0f,	1.0f, 1.0f, 0.0f, 1.0f,
 };
 
-void vertexShader(float* vertAttrBuf, const uint32_t vertSize, const void* mdl,
-	const void* uniforms, const uint32_t tri)
+void vertShd(const uint32_t vertSize, const void* pMesh,
+	const void* pUniforms, const uint32_t tri, float* pVertAttrBuf)
 {
+	// Passthrough shader
 	uint32_t triSize = vertSize * 3;
-	float* model = mdl;
-	memcpy(vertAttrBuf, &model[triSize * tri], triSize * sizeof(float));
+	memcpy(pVertAttrBuf, &((float*)pMesh)[triSize * tri],
+		triSize * sizeof(float));
 }
 
-void fragmentShader(SGLBGR32* color, float* fragInBuf, void* uniforms)
+void fragShd(const float* pFragAttrBuf, const void* pUniforms,
+	SGLBGRA* pColor)
 {
-	color->b = (uint8_t)(fragInBuf[0] * 255.0f);
-	color->g = (uint8_t)(fragInBuf[1] * 255.0f);
-	color->r = (uint8_t)(fragInBuf[2] * 255.0f);
+	pColor->b = (uint8_t)(pFragAttrBuf[0] * 255.0f);
+	pColor->g = (uint8_t)(pFragAttrBuf[1] * 255.0f);
+	pColor->r = (uint8_t)(pFragAttrBuf[2] * 255.0f);
 }
 
 int main()
 {
-	SGLTex2D framebuf, depthbuf;
-	sglTex2DInit(&framebuf, SGL_TEX2D_RAW, width, height, 0, 0);
-	sglTex2DColorFill(&framebuf, (SGLBGR32){0, 0, 0, 255});
-	sglTex2DInit(&depthbuf, SGL_TEX2D_DEPTH, width, height, 0, 0);
-	sglTex2DDepthReset(&depthbuf);
+	SGLTex2D frameBuf, depthBuf;
+	sglCreateTex2D(SGL_TYPE_TEX2D_BGRA, width, height, 1, 
+		&frameBuf);
+	sglTex2DFillBGRA((SGLBGRA){0, 0, 0, 255}, &frameBuf);
+	sglCreateTex2D(SGL_TYPE_TEX2D_FLOAT, width, height, 1, 
+		&depthBuf);
+	sglTex2DFillFloat(SGL_DEPTH_FAR, &depthBuf);
 
-	SGLShader gradientShader;
-	sglCreateShader(&gradientShader, &vertexShader, &fragmentShader, 4);
+	SGLShader shd;
+	sglCreateShader(&vertShd, &fragShd, 4, &shd);
 
-	SGLRenderInfo info;
-	info.shd = &gradientShader;
-	info.mdl = &mdl;
-	info.triStart = 0;
-	info.triCount = 4;
-	info.frameTarget = &framebuf;
-	info.depthTarget = &depthbuf;
+	SGLMeshInfo meshInfo = { SGL_TYPE_MESH, &shd, NULL, mesh, 0, 4 };
 
-	float* cache = _aligned_malloc(8 * 3 * 4, 16);
-	sglCacheTris(&info, cache);
-	sglBinTris(&info, cache, 0, 4);
+	SGLBin bins[120];
+	for (uint32_t i = 0; i < 120; i++)
+	{
+		bins[i].sType = SGL_TYPE_BIN;
+		bins[i].pTris = SGL_MALLOC(16);
+		bins[i].tris = 0;
+		bins[i].size = 16;
+	}
+
+	SGLTargetInfo targetInfo = { SGL_TYPE_TARGET_INFO, &frameBuf, &depthBuf,
+		width, height, 10, 12, 128, 60, bins
+	};
+
+	float vertCache[96];
+	sglCacheTris(&meshInfo, &targetInfo, vertCache);
+
+	sglBinTris(vertCache, &meshInfo, 0, 4, &targetInfo);
 
 
 	/*****************************************************************************
@@ -109,7 +122,7 @@ int main()
 	}
 
 	// Generate SDL2 surface from the rendered SGLTex2D framebuffer
-	SDL_Surface* framebufferSurface = SDL_CreateRGBSurfaceFrom(framebuf.rawBuf,
+	SDL_Surface* framebufferSurface = SDL_CreateRGBSurfaceFrom(frameBuf.pBGRA,
 		width, height, 32, 4 * width,	// 4 * Pixels per row 
 		0x00ff0000, 0x0000ff00, 0x000000ff, 0xff000000);
 
@@ -129,8 +142,8 @@ int main()
 		}
 	}
 
-	sglTex2DFree(&framebuf);
-	sglTex2DFree(&depthbuf);
+	sglDestroyTex2D(&frameBuf);
+	sglDestroyTex2D(&depthBuf);
 	SDL_DestroyWindow(window);
 	SDL_Quit();
 }
