@@ -3,36 +3,33 @@
 #include "string.h"
 
 // Default vector sizes in SglCommandBuffer
-#define SGL_STAGE_RENDERPASS_COUNT		2
-#define SGL_STAGE_PIPELINE_COUNT		2
-#define SGL_STAGE_DRAW_COUNT			8
-#define SGL_STAGE_DRAW_MESH_COUNT		4
+#define SGL_STAGE_RENDERPASS_COUNT		4
+#define SGL_STAGE_PIPELINE_COUNT		4
+#define SGL_STAGE_DRAW_COUNT			16
+#define SGL_STAGE_INSTANCE_COUNT		32
 
-typedef struct SglMeshStage
+typedef struct SglInstanceStage
 {
 	void* pVertices;
 	void* pIndices;
 	uint32_t vertexCount;
 	uint32_t indexCount;
 	uint32_t uniformOffset;
-} SglMeshStage;
+} SglInstanceStage;
 
 typedef struct SglDrawStage
 {
 	void* pUniforms;
 	uint32_t indexTotalCount;
 	uint32_t vertexTotalCount;
-	SglMeshStage* pInstances;
-	uint32_t instanceCount;
-	uint32_t instanceSize;
+	uint32_t instanceIndices[2];
 } SglDrawStage;
 
 typedef struct SglPipelineStage
 {
 	SglPipeline* pPipeline;
-	SglDrawStage* pDraws;
-	uint32_t drawCount;
-	uint32_t drawSize;
+	int32_t drawStart;
+	uint32_t drawEnd;
 } SglPipelineStage;
 
 typedef struct SglRenderpassStage
@@ -41,21 +38,33 @@ typedef struct SglRenderpassStage
 	SglImage* pDepthTarget;
 	bool bDepthCheck;
 	bool bDepthWrite;
-	SglPipelineStage* pPipelines;
+	int32_t pipelineStart;
 	uint32_t pipelineCount;
-	uint32_t pipelineSize;
 } SglRenderpassStage;
 
+typedef SGL_VECTOR_OF(SglInstanceStage) SglInstanceStageVector;
+typedef SGL_VECTOR_OF(SglDrawStage) SglDrawStageVector;
+typedef SGL_VECTOR_OF(SglPipelineStage) SglPipelineStageVector;
+typedef SGL_VECTOR_OF(SglRenderpassStage) SglRenderpassStageVector;
+
+/** Records state changes (bindings) and draw calls of a frame. */
 typedef struct SglCommandBuffer
 {
-	SglRenderpassStage* pRenderpasses;
-	uint32_t renderpassCount;
-	uint32_t renderpassSize;
-	void* pBoundUniforms;
+	SglType sType;
+	SglRenderpassStageVector renderpasses;
+	SglPipelineStageVector pipelines;
+	SglDrawStageVector draws;
+	SglInstanceStageVector instances;
 } SglCommandBuffer;
 
+SGL_EXPORT void sglInitCommandBuffer(SglCommandBuffer* pCommandBuffer);
+
+SGL_EXPORT void sglFreeCommandBuffer(SglCommandBuffer* pCommandBuffer);
+
+/** Command to begin recording in a command buffer. */
 SGL_EXPORT void sglCmdBegin(SglCommandBuffer* pCommandBuffer);
 
+/**	Command to begin a render pass. Must be called after sglCmdBegin. */
 SGL_EXPORT void sglCmdBeginRenderpass(SglCommandBuffer* pCommandBuffer, SglImage* pColorTarget,
 	SglImage* pDepthTarget, bool bDepthCheck, bool bDepthWrite);
 

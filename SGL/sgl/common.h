@@ -2,8 +2,11 @@
 
 #include <stdint.h>
 #include <stdlib.h>
-#include <malloc.h>
 #include <stdio.h>
+#include <stdbool.h>
+#include <malloc.h>
+
+//---------------- Compiler-specific utility. ----------------
 
 #if defined (_MSC_VER)
 #define SGL_INLINE __forceinline
@@ -15,12 +18,14 @@
 #define SGL_ALIGN(X) __atribute((aligned(X)))
 #endif
 
+#define SGL_MALLOC(size)_aligned_malloc(size, 16)
+#define SGL_DEPTH_FAR					1.0f
+
+//---------------- Validation ----------------
+
 #ifdef _DEBUG
 #define SGL_VALIDATE
 #endif
-
-#define SGL_MALLOC(size)_aligned_malloc(size, 16)
-#define SGL_DEPTH_FAR					1.0f
 
 typedef uint32_t SglType;
 
@@ -39,7 +44,7 @@ typedef uint32_t SglType;
 typedef struct SglObject
 {
 	SglType sType;
-} SGLObject;
+} SglObject;
 
 typedef uint32_t SglCallbackSeverityFlags;
 
@@ -58,12 +63,60 @@ typedef uint32_t SglCallbackSeverityFlags;
 									callback. */
 extern void sglValidationCallback(
 	const SglCallbackSeverityFlags callbackSeverity,
-	const SGLObject** pObjects, uint32_t objects,
+	const SglObject** pObjects, uint32_t objectCount,
 	const uint8_t* pMessage, ...);
 #else
 SGL_INLINE void sglValidationCallback(
 	const SGLCallbackSeverityFlags callbackSeverity,
-	const SGLObject* pObject, uint32_t objects,
+	const SglObject** pObjects, uint32_t objectCount,
 	const uint8_t* pMessage, ...) {}
 #endif
 
+//---------------- STD template style vectors. ----------------
+
+/** Macro to create a vector of a particular type. */
+#define SGL_VECTOR_OF(TYPE) \
+	struct { \
+		TYPE *pData; \
+		size_t size; \
+		size_t capacity; \
+	}
+
+/**	Macro to initialize a vector. */
+#define SGL_VECTOR_INIT(VECTOR, CAPACITY) \
+	(VECTOR).pData = malloc((CAPACITY) * sizeof(*(VECTOR).pData)); \
+	(VECTOR).size = 0; \
+	(VECTOR).capacity = (CAPACITY);
+
+/** Macro to free a vector. */
+#define SGL_VECTOR_FREE(VECTOR) \
+	free((VECTOR).pData); \
+	(VECTOR).size = 0; \
+	(VECTOR).capacity = 0; \
+
+/** Macro to clear a vector. */
+#define SGL_VECTOR_CLEAR(VECTOR) \
+	(VECTOR).size = 0;
+
+/**	Macro to get vector size (returns number of elements). */
+#define SGL_VECTOR_SIZE(VECTOR)	\
+	VECTOR.size
+
+#define SGL_VECTOR_AT(VECTOR, INDEX) \
+	(VECTOR).pData[(INDEX)]
+
+#define SGL_VECTOR_LAST(VECTOR) \
+	(VECTOR).pData[(VECTOR).size - 1]
+
+/** Macro to push back a value into a vector. */
+#define SGL_VECTOR_PUSH_BACK(VECTOR, VALUE) \
+	do { \
+		if (VECTOR.size == VECTOR.capacity) \
+		{ \
+			VECTOR.capacity *= 2; \
+			VECTOR.pData = realloc(VECTOR.pData, sizeof(*(VECTOR).pData) * VECTOR.capacity); \
+		} \
+		VECTOR.pData[VECTOR.size] = VALUE; \
+		VECTOR.size += 1; \
+	} while (0)
+	

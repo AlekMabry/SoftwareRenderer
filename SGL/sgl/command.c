@@ -1,78 +1,86 @@
 #include "command.h"
 
+void sglInitCommandBuffer(SglCommandBuffer* pCommandBuffer)
+{
+	pCommandBuffer->sType = SGL_TYPE_COMMAND_BUFFER;
+	SGL_VECTOR_INIT(pCommandBuffer->renderpasses, SGL_STAGE_RENDERPASS_COUNT)
+	SGL_VECTOR_INIT(pCommandBuffer->pipelines, SGL_STAGE_PIPELINE_COUNT)
+	SGL_VECTOR_INIT(pCommandBuffer->draws, SGL_STAGE_DRAW_COUNT)
+	SGL_VECTOR_INIT(pCommandBuffer->instances, SGL_STAGE_INSTANCE_COUNT)
+}
+
+void sglFreeCommandBuffer(SglCommandBuffer* pCommandBuffer)
+{
+	SGL_VECTOR_FREE(pCommandBuffer->renderpasses)
+	SGL_VECTOR_FREE(pCommandBuffer->pipelines)
+	SGL_VECTOR_FREE(pCommandBuffer->draws)
+	SGL_VECTOR_FREE(pCommandBuffer->instances)
+}
+
 void sglCmdBegin(SglCommandBuffer* pCommandBuffer)
 {
-	if (pRenderStages == NULL)
-	{
-		// Allocate command buffer
-		pCommandBuffer->pRenderStages = calloc(sizeof(SglRenderpassStage) *
-			SGL_STAGE_RENDERPASS_COUNT);
-		pCommandBuffer->renderStagesCount = 0;
-		pCommandBuffer->renderStagesSize = SGL_STAGE_RENDERPASS_COUNT;
-	}
-	else
-	{
-		// Clear command buffer
-		for (uint32_t i = 0; i < pCommandBuffer->renderStageCount; i++)
-		{
-			pCommandBuffer->pRenderStages[i].p
-		}
-	}
-	
-	pCommandBuffer->renderStageCount = 0;
+	SGL_VECTOR_CLEAR(pCommandBuffer->renderpasses)
+	SGL_VECTOR_CLEAR(pCommandBuffer->pipelines)
+	SGL_VECTOR_CLEAR(pCommandBuffer->draws)
+	SGL_VECTOR_CLEAR(pCommandBuffer->instances)
 }
 
 void sglCmdBeginRenderpass(SglCommandBuffer* pCommandBuffer, SglImage* pColorTarget,
 	SglImage* pDepthTarget, bool bDepthCheck, bool bDepthWrite)
 {
-	if (pCommandBuffer->renderpassCount == pCommandBuffer->renderpassSize)
+	if (SGL_VECTOR_SIZE(pCommandBuffer->renderpasses) > 0)
 	{
-		pCommandBuffer->pRenderStages = realloc(pCommandBuffer->pRenderStages,
-			pCommandBuffer->renderpassSize * 2 * sizeof(SglRenderpassStage));
-		memset(&pCommandBuffer->pRenderStages[pCommandBuffer->renderpassSize], 0,
-			pCommandBuffer->renderpassSize * sizeof(SglRenderpassStage));
-		pCommandBuffer->renderpassSize *= 2;
+		if (SGL_VECTOR_LAST(pCommandBuffer->renderpasses).pipelineStart < 0)
+		{
+			SglObject* objects[] = { pCommandBuffer };
+			sglValidationCallback(SGL_CALLBACK_SEVERITY_WARNING, objects, 1,
+				"A new renderpass is being created before anything was drawn in the previous pass!");
+		}
 	}
-	
-	SglRenderpassStage* pRenderpass = &pCommandBuffer->pRenderpasses[pCommandBuffer->renderpassCount];
-	pRenderpass->pColorTarget = pColorTarget;
-	pRenderpass->pDepthTarget = pDepthTarget;
-	pRenderpass->bDepthCheck = bDepthCheck;
-	pRenderpass->bDepthWrite = bDepthWrite;
-	if (pRenderpass->pPipelines == NULL)
-	{
-		pRenderpass->pPipelines = calloc(sizeof(SglPipelineStage) * SGL_STAGE_PIPELINE_COUNT);
-		pRenderpass->pipelineSize = SGL_STAGE_PIPELINE_COUNT;
-	}
-	pRenderpass->pipelineCount = 0;
 
-	pCommandBuffer->renderpassCount++;
+	SglRenderpassStage renderpass =
+	{
+		pColorTarget,
+		pDepthTarget,
+		bDepthCheck,
+		bDepthWrite,
+		-1,
+		0
+	};
+
+	SGL_VECTOR_PUSH_BACK(pCommandBuffer->renderpasses, renderpass);
 }
 
 void sglCmdBindPipeline(SglCommandBuffer* pCommandBuffer, const SglPipeline* pPipeline)
 {
-	SglRenderpassStage* pRenderpass =
-		&pCommandBuffer->pRenderpasses[pCommandBuffer->renderpassCount - 1];
-	
-	if (pRenderpass->pipelineCount == pRenderpass->pipelineSize)
+	// Verify that at least one renderpass has been created
+	if (SGL_VECTOR_SIZE(pCommandBuffer->renderpasses) < 1)
 	{
-		pRenderpass->pPipelines = realloc(pRenderpass->pipelineSize * 2 *
-			sizeof(SglPipelineStage));
-		memset(&pRenderpass->pPipelines[pRenderpass->piplineSize], 0, pRenderpass->pipelineSize *
-			sizeof(SglPipelineStage));
-		pRenderpass->pipelineSize *= 2;
+		SglObject* objects[] = { pCommandBuffer };
+		sglValidationCallback(SGL_CALLBACK_SEVERITY_ERROR, objects, 1,
+			"Unable to bind pipeline if a renderpass hasn't been created first!");
+		return;
 	}
 
-	SglPipelineStage* pPipelineStage = pRenderpass->pPipelines[pRenderpass->pipelineCount];
-	pPipelineStage->pPipeline = pPipeline;
-	if (pPipelineStage->pDraws == NULL)
+	SglRenderpassStage* pRenderpass = &SGL_VECTOR_LAST(pCommandBuffer->renderpasses);
+	if (pRenderpass->pipelineStart < 0)
 	{
-		pPipelineStage->pDraws = calloc(sizeof(SglDrawStage) * SGL_STAGE_DRAW_COUNT);
-		pPipelineStage->drawSize = SGL_STAGE_DRAW_COUNT;
+		pRenderpass->pipelineStart = SGL_VECTOR_SIZE(pCommandBuffer->pipelines);
+		pRenderpass->pipelineCount = 1;
 	}
-	pPipelineStage->drawCount = 0;
+	else
+	{
+		pRenderpass->pipelineCount += 1;
+	}
 
-	pRenderpass->pipelineCount++;
+	SglPipelineStage pipeline =
+	{
+		pPipeline,
+		-1,
+		0
+	};
+
+	SGL_VECTOR_PUSH_BACK(pCommandBuffer->pipelines, pipeline);
 }
 
 void sglCmdBindUniforms(SglCommandBuffer* pCommandBuffer, const void* pUniforms)
@@ -84,11 +92,13 @@ void sglCmdDraw(SglCommandBuffer* pCommandBuffer, const void* pVertices,
 	const void* pIndices, uint32_t vertexCount, uint32_t indexCount, uint32_t instanceCount)
 {
 	SglRenderpassStage* pRenderpass =
-		pCommandBuffer->pRenderpasses[pCommandBuffer->renderpassCount - 1];
-	SglPipelineStage* pPipeline = pRenderpass->pPipelines[pRenderpass->pipelineCount - 1];
-	
-	if (pPipeline->drawCount == pPipeline->drawSize)
+		&pCommandBuffer->pRenderpasses[pCommandBuffer->renderpassCount - 1];
+	SglPipelineStage* pPipeline = &pRenderpass->pPipelines[pRenderpass->pipelineCount - 1];
+	SglDrawStage* pDraw = &pPipeline->pDraws[pPipeline->drawCount - 1];
+
+	if (pDraw->instanceCount == pDraw->instanceSize)
 	{
-		pPipeline->pDraws = realloc(pPipeline)
+		pDraw->pInstances = realloc(pDraw->pInstances, )
+		memset(&pPipeline->pDraws[pPipeline->])
 	}
 }
