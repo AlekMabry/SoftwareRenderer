@@ -1,6 +1,7 @@
+#pragma once
+
 #include "common.h"
 #include "pipeline.h"
-#include "string.h"
 
 // Default vector sizes in SglCommandBuffer
 #define SGL_STAGE_RENDERPASS_COUNT		4
@@ -22,14 +23,15 @@ typedef struct SglDrawStage
 	void* pUniforms;
 	uint32_t indexTotalCount;
 	uint32_t vertexTotalCount;
-	uint32_t instanceIndices[2];
+	int32_t instanceStart;
+	uint32_t instanceCount;
 } SglDrawStage;
 
 typedef struct SglPipelineStage
 {
 	SglPipeline* pPipeline;
 	int32_t drawStart;
-	uint32_t drawEnd;
+	uint32_t drawCount;
 } SglPipelineStage;
 
 typedef struct SglRenderpassStage
@@ -73,7 +75,5 @@ SGL_EXPORT void sglCmdBindPipeline(SglCommandBuffer* pCommandBuffer, const SglPi
 SGL_EXPORT void sglCmdBindUniforms(SglCommandBuffer* pCommandBuffer, const void* pUniforms);
 
 SGL_EXPORT void sglCmdDraw(SglCommandBuffer* pCommandBuffer, const void* pVertices,
-	const void* pIndices, uint32_t vertexCount, uint32_t indexCount, uint32_t instanceCount);
-
-SGL_EXPORT void sglSubmitCommandBuffer(SglCommandBuffer* pCommandBuffer,
-	uint32_t threadCount, SglInstance* pInstance);
+	const void* pIndices, uint32_t vertexCount, uint32_t indexCount, uint32_t uniformOffset,
+	uint32_t instanceCount);

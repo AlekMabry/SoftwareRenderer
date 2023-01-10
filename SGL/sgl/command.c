@@ -62,6 +62,7 @@ void sglCmdBindPipeline(SglCommandBuffer* pCommandBuffer, const SglPipeline* pPi
 		return;
 	}
 
+	// Update current renderpass's pipeline indices to include this pipeline
 	SglRenderpassStage* pRenderpass = &SGL_VECTOR_LAST(pCommandBuffer->renderpasses);
 	if (pRenderpass->pipelineStart < 0)
 	{
@@ -70,7 +71,7 @@ void sglCmdBindPipeline(SglCommandBuffer* pCommandBuffer, const SglPipeline* pPi
 	}
 	else
 	{
-		pRenderpass->pipelineCount += 1;
+		pRenderpass->pipelineCount++;
 	}
 
 	SglPipelineStage pipeline =
@@ -85,20 +86,75 @@ void sglCmdBindPipeline(SglCommandBuffer* pCommandBuffer, const SglPipeline* pPi
 
 void sglCmdBindUniforms(SglCommandBuffer* pCommandBuffer, const void* pUniforms)
 {
-	pCommandBuffer->pBoundUniforms = pUniforms;
+	// Verify that at least one pipeline as been bound
+	if (SGL_VECTOR_SIZE(pCommandBuffer->pipelines) < 1)
+	{
+		SglObject* objects[] = { pCommandBuffer };
+		sglValidationCallback(SGL_CALLBACK_SEVERITY_ERROR, objects, 1,
+			"Unable to bind uniforms if a pipeline hasn't been bound first!");
+		return;
+	}
+
+	// Update current pipeline's draw indices to include this draw stage
+	SglPipelineStage* pPipeline = &SGL_VECTOR_LAST(pCommandBuffer->pipelines);
+	if (pPipeline->drawStart < 0)
+	{
+		pPipeline->drawStart = SGL_VECTOR_SIZE(pCommandBuffer->pipelines);
+		pPipeline->drawCount = 1;
+	}
+	else
+	{
+		pPipeline->drawCount++;
+	}
+
+	SglDrawStage draw =
+	{
+		pUniforms,
+		0,
+		0,
+		-1,
+		0
+	};
+
+	SGL_VECTOR_PUSH_BACK(pCommandBuffer->draws, draw);
 }
 
 void sglCmdDraw(SglCommandBuffer* pCommandBuffer, const void* pVertices,
-	const void* pIndices, uint32_t vertexCount, uint32_t indexCount, uint32_t instanceCount)
+	const void* pIndices, uint32_t vertexCount, uint32_t indexCount, uint32_t uniformOffset,
+	uint32_t instanceCount)
 {
-	SglRenderpassStage* pRenderpass =
-		&pCommandBuffer->pRenderpasses[pCommandBuffer->renderpassCount - 1];
-	SglPipelineStage* pPipeline = &pRenderpass->pPipelines[pRenderpass->pipelineCount - 1];
-	SglDrawStage* pDraw = &pPipeline->pDraws[pPipeline->drawCount - 1];
-
-	if (pDraw->instanceCount == pDraw->instanceSize)
+	// Verify that at least one uniform as been bound
+	if (SGL_VECTOR_SIZE(pCommandBuffer->draws) < 1)
 	{
-		pDraw->pInstances = realloc(pDraw->pInstances, )
-		memset(&pPipeline->pDraws[pPipeline->])
+		SglObject* objects[] = { pCommandBuffer };
+		sglValidationCallback(SGL_CALLBACK_SEVERITY_ERROR, objects, 1,
+			"Unable to handle a draw command if uniforms have not been bound first!");
+		return;
+	}
+
+	// Update current draw stage's instance indices to include this instance
+	SglDrawStage* pDraw = &SGL_VECTOR_LAST(pCommandBuffer->draws);
+	if (pDraw->instanceStart < 0)
+	{
+		pDraw->instanceStart = SGL_VECTOR_SIZE(pCommandBuffer->instances);
+		pDraw->instanceCount = instanceCount;
+	}
+	else
+	{
+		pDraw->instanceCount += instanceCount;
+	}
+
+	for (uint32_t i = 0; i < instanceCount; i++)
+	{
+		SglInstanceStage instance =
+		{
+			pVertices,
+			pIndices,
+			vertexCount,
+			indexCount,
+			uniformOffset
+		};
+
+		SGL_VECTOR_PUSH_BACK(pCommandBuffer->instances, instance);
 	}
 }

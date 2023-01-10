@@ -10,7 +10,7 @@ source_group ("sgl" FILES ${SGL_SOURCE})
 include_directories (.)
 
 # Generate Renderer.DLL
-add_library(SGL SHARED ${SGL_EXPORTS} ${SGL_SOURCE} ${SGL_DEF})
+add_library(SGL SHARED ${SGL_EXPORTS} ${SGL_SOURCE} ${SGL_DEF} "sgl/instance.h")
 
 set_target_properties(SGL PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin)
